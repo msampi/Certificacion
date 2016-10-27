@@ -30,5 +30,6 @@ class AdminController extends AppBaseController
         return $imageName;
     }
 
-
+    public function fileManager() {
+    }
 }

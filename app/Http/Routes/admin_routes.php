@@ -16,7 +16,6 @@ Route::group(['middleware' => 'admin', 'namespace' => 'Admin', 'prefix' => ''], 
 	Route::resource('values', 'ValueController');
 	Route::resource('plans', 'PlanController');
 	Route::resource('documents', 'DocumentController');
-
 });
 
 Route::group(['middleware' => 'superadmin', 'namespace' => 'Admin', 'prefix' => 'admin'], function()
@@ -26,4 +25,5 @@ Route::group(['middleware' => 'superadmin', 'namespace' => 'Admin', 'prefix' => 
 	Route::resource('translations', 'TranslationController',['names' => [ 'index' => 'translations.index' ] ]);
 	Route::resource('ratings', 'RatingController');
 	Route::resource('trackings', 'TrackingController');
+
 });
