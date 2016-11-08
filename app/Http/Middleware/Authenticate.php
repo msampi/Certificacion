@@ -18,10 +18,7 @@ class Authenticate
     public function handle($request, Closure $next, $guard = null)
     {
         if ( $request->user()!= null ) :
-            if( $request->user()->role_id == 1 || $request->user()->role_id == 2 )
-                return redirect('/admin');
-            else
-                return $next($request);
+            return $next($request);
         else :
             return redirect()->guest('login');
         endif;

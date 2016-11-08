@@ -10,16 +10,19 @@ use Auth;
 
 class AdminController extends AppBaseController
 {
-
-    public function __construct()
+    public function random($length)
     {
-        //$this->languageRepository = App::make(LanguageRepository::class);
+        $key = '';
+        $keys = array_merge(range(0, 9), range('a', 'z'));
 
-        //parent::__construct();
+        for ($i = 0; $i < $length; $i++) {
+            $key .= $keys[array_rand($keys)];
+        }
+
+        return $key;
     }
-
-
-    public function uploadImage($request, $field_name)
+    
+    public function uploadFile($request, $field_name)
     {
         $imageName = NULL;
         if ($request->file($field_name)) :

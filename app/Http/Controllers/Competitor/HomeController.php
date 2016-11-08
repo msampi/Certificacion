@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class HomeController extends AppBaseController
 {
-    
+
 
     /**
      * Show the application dashboard.

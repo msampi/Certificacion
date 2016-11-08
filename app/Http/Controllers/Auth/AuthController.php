@@ -60,13 +60,14 @@ class AuthController extends Controller
 
     protected function authenticated($request, $user)
     {
-        if( $user->role_id == 1 || $user->role_id == 2 )
+        if( $user->role_id == 1 )
             return redirect('/');
-        else
-           if( $user->role_id == 3 )
-              return redirect()->intended('/competitor');
-           else
-              return redirect()->intended('/consultant');
+        if( $user->role_id == 2)
+            return redirect()->intended('/client');  
+        if( $user->role_id == 3 )
+            return redirect()->intended('/competitor');
+           
+        return redirect()->intended('/consultant');
 
 
     }

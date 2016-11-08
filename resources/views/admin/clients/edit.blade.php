@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
    <section class="content-header">
            <h1>
-               {{ $dictionary->translate('Client')  }}
+               Editar Cliente
            </h1>
    </section>
    <div class="content">
@@ -12,7 +12,7 @@
 
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($client, ['route' => ['admin.clients.update', $client->id], 'method' => 'patch', 'files' => true]) !!}
+                   {!! Form::model($client, ['route' => ['clients.update', $client->id], 'method' => 'patch', 'files' => true]) !!}
 
                     @include('admin.clients.fields')
 

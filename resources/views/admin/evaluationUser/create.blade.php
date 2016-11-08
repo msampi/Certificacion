@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
  <section class="content-header">
         <h1>
-            {!! $dictionary->translate('Usuario en evaluacion').': '.$evaluation->name !!}
+            Nueva asignación en: {!! $evaluation->name !!}
         </h1>
     </section>
     <div class="content">
@@ -12,9 +12,9 @@
 
             <div class="box-body">
                 <div class="row">
-                    {!! Form::open(['route' => 'admin.evaluationUserEvaluators.store']) !!}
+                    {!! Form::open(['route' => 'evaluationUser.store']) !!}
 
-                              @include('admin.evaluationUserEvaluators.fields')
+                              @include('admin.evaluationUser.fields')
 
                     {!! Form::close() !!}
                 </div>

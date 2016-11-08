@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Evaluation;
+use App\Models\EvaluationExercise;
 use App\Criteria\EqualCriteria;
 use InfyOm\Generator\Common\BaseRepository;
 use Session;
@@ -15,7 +16,7 @@ class EvaluationRepository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
-        'name'
+        'id'
     ];
 
     /**
@@ -35,83 +36,61 @@ class EvaluationRepository extends BaseRepository
     public function getEvaluationCount() {
         return $this->all()->count();
     }
-
-    public function getObjectivesRating() {
-        return $this->model->where('id', Session::get('evaluation_id'))->first()->objectivesRating;
-    }
-
-    public function getCompetitionsRating() {
-        return $this->model->where('id', Session::get('evaluation_id'))->first()->competitionsRating;
-    }
-
-    public function getValorationsRating() {
-        return $this->model->where('id', Session::get('evaluation_id'))->first()->valorationsRating;
-    }
-
-
-    public function getCurrentStage()
+    
+    
+    public function create(array $input)
     {
 
-        $evaluation = $this->model->where('id',Session::get('evaluation_id'))->first();
-
-        $now = Carbon::now();
-
-        if ($evaluation->start_year_end->gt($now))
-            return 1;
-        else
-        if ($evaluation->half_year_end->gt($now))
-            return 2;
-        else
-            return 3;
-
-        return 2;
-
+        $evaluation = parent::create($input);
+        $order = 1;
+        if (isset($input['exercise']))
+            foreach ($input['exercise'] as $key => $exercise) {
+                $e = EvaluationExercise::firstOrNew(['id' => $exercise['id']]);
+                $e->evaluation_id = $evaluation->id;
+                $e->exercise_id = $exercise['exercise_id'];
+                if ($exercise['from'] && $exercise['from_hour'])
+                    $e->date_from = Carbon::createFromFormat('d/m/Y H:i:s', $exercise['from'].' '.$exercise['from_hour'].':00')->toDateString();
+                if ($exercise['to'] && $exercise['to_hour'])
+                    $e->date_to = Carbon::createFromFormat('d/m/Y H:i:s', $exercise['to'].' '.$exercise['to_hour'].':00')->toDateString();
+                $e->number = $key;
+                $e->save();
+                $order++;
+            }
+        return $evaluation;
 
     }
-
-    public function getEvaluationsList($client = NULL)
+    
+    public function update(array $input, $id)
     {
-      if (!$client)
-        $evaluations = $this->all();
-      else
-        $evaluations = $this->findWhere(['client_id' => $client->id]);
 
+        $evaluation = parent::update($input, $id);
+        $order = 1;
+        if (isset($input['exercise'])) :
+            foreach ($input['exercise'] as $key => $exercise) {
+                $e = EvaluationExercise::firstOrNew(['id' => $exercise['id']]);
+                $e->evaluation_id = $evaluation->id;
+                $e->exercise_id = $exercise['exercise_id'];
+                if ($exercise['from'] && $exercise['from_hour'])
+                    $e->date_from = Carbon::createFromFormat('d/m/Y H:i:s', $exercise['from'].' '.$exercise['from_hour'].':00')->toDateString();
+                if ($exercise['to'] && $exercise['to_hour'])
+                    $e->date_to = Carbon::createFromFormat('d/m/Y H:i:s', $exercise['to'].' '.$exercise['to_hour'].':00')->toDateString();
+                $e->number = $order;
+               
+                $e->save();
+                $order++;
+            }
 
-      $result = array();
-      foreach ($evaluations as $evaluation) {
-          $result[$evaluation->id] = $evaluation->name;
+            $deleteInput = explode(',',$input['remove-item-list']);
+            foreach ($deleteInput as $value) 
+                if ($value)
+                    EvaluationExercise::where('id',$value)->delete();
+        endif;
+        
 
-      }
-
-      return $result;
+        return $evaluation;
     }
 
-    public function userVisibility()
-    {
-      $this->pushCriteria(new EqualCriteria('id',Session::get('evaluation_id')));
-      $evaluation = $this->first();
 
-      $now = Carbon::now();
-      $current_stage = $this->getCurrentStage();
-
-      if (!$evaluation->visualization)
-        return false;
-      if ($current_stage == 1)
-        return false;
-      if ($current_stage == 2)
-          if ($evaluation->vis_half_year_start->lt($now) && $evaluation->vis_half_year_end->gt($now))
-            return true;
-          else
-            return false;
-      if ($current_stage == 3)
-          if ($evaluation->vis_end_year_start->lt($now) && $evaluation->vis_end_year_end->gt($now))
-            return true;
-          else
-            return false;
-
-      return false;
-
-    }
 
 
 }

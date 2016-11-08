@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
- <section class="content-header">
+    <section class="content-header">
         <h1>
-            {!! $dictionary->translate('Nueva Competencia') !!}
+            Nuevo Ejercicio
         </h1>
     </section>
     <div class="content">
@@ -12,9 +12,9 @@
 
             <div class="box-body">
                 <div class="row">
-                    {!! Form::open(['route' => 'admin.competitions.store']) !!}
+                    {!! Form::open(['route' => 'exercises.store']) !!}
 
-                              @include('admin.competitions.fields')
+                        @include('admin.exercises.fields')
 
                     {!! Form::close() !!}
                 </div>

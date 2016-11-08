@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
    <section class="content-header">
            <h1>
-               {!! $dictionary->translate('Evaluación')!!}
+               Editar Asignación
            </h1>
    </section>
    <div class="content">
@@ -12,9 +12,9 @@
 
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($eue, ['route' => ['admin.evaluationUserEvaluators.update', $eue->id], 'method' => 'patch']) !!}
+                   {!! Form::model($evaluation, ['route' => ['evaluationUser.update', $evaluation->id], 'method' => 'patch']) !!}
 
-                    @include('admin.evaluationUserEvaluators.fields')
+                    @include('admin.evaluationUser.fields')
 
                    {!! Form::close() !!}
                </div>

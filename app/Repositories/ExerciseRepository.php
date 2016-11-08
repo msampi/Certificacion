@@ -2,16 +2,16 @@
 
 namespace App\Repositories;
 
-use App\Models\Value;
+use App\Models\Exercise;
 use InfyOm\Generator\Common\BaseRepository;
 
-class RatingValueRepository extends BaseRepository
+class ExerciseRepository extends BaseRepository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
-        'value'
+        'id'
     ];
 
     /**
@@ -19,6 +19,6 @@ class RatingValueRepository extends BaseRepository
      **/
     public function model()
     {
-        return Value::class;
+        return Exercise::class;
     }
 }

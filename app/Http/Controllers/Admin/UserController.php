@@ -26,7 +26,7 @@ class UserController extends AdminController
 
     public function __construct(UserRepository $userRepo)
     {
-        parent::__construct();
+        
         $this->userRepository = $userRepo;
 
     }
@@ -79,7 +79,7 @@ class UserController extends AdminController
 
         $input = $request->all();
 
-        $input['image'] = $this->uploadImage($request, 'image');
+        $input['image'] = $this->uploadFile($request, 'image');
         $pass = 'admin';
         $input['password'] = $pass;
         $user = $this->userRepository->create($input);

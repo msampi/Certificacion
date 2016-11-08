@@ -1,27 +1,26 @@
 <table class="table table-bordered table-striped search-table" id="evaluations-table">
     <thead>
-        <th>{!! $dictionary->translate('Nombre Usuario') !!}</th>
-        <th>{!! $dictionary->translate('Email Usuario') !!}</th>
-        <th>{!! $dictionary->translate('Puesto Usuario') !!}</th>
-        <th>{!! $dictionary->translate('Categoria Usuario') !!}</th>
-        <th>{!! $dictionary->translate('Nombre Evaluador') !!}</th>
-        <th>{!! $dictionary->translate('Email Evaluador') !!}</th>
-        <th width="10%">{!! $dictionary->translate('Acción') !!}</th>
+        <th>Participante</th>
+        <th>Participante email</th>
+        <th>Consultor Primario</th>
+        <th>Consultor Secundario</th>
+        <th>Status</th>
+        <th width="10%">Acción</th>
     </thead>
     <tbody>
     @foreach($evaluation_users as $evaluation)
         <tr>
-            <td>{!! $evaluation->user->name or '' !!} {!! $evaluation->user->last_name or '' !!}</td>
-            <td>{!! $evaluation->user->email or '' !!}</td>
-            <td>@if ($evaluation->post) {!! $evaluation->post->getName() !!} @endif</td>
-            <td>{!! $evaluation->category !!}</td>
-            <td>{!! $evaluation->evaluator['name'] !!} {!! $evaluation->evaluator['last_name'] !!}</td>
-            <td>{!! $evaluation->evaluator['email'] !!}</td>
+            <td>{!! $evaluation->competitor->name !!} {!! $evaluation->competitor->last_name !!}</td>
+            <td>{!! $evaluation->competitor->email !!}</td>
+            <td>{!! $evaluation->primaryConsultant->name !!} {!! $evaluation->primaryConsultant->last_name !!}</td>
+            <td>{!! $evaluation->secondaryConsultant->name !!} {!! $evaluation->secondaryConsultant->last_name !!}</td>
+            <td>status</td>
+            
 
             <td>
-                {!! Form::open(['route' => ['admin.evaluationUserEvaluators.destroy', $evaluation->id], 'method' => 'delete']) !!}
-                 <a href="{!! route('admin.evaluationUserEvaluators.edit', [$evaluation->id]) !!}" class='btn btn-default btn-sm' data-toggle="tooltip" data-placement="top" title="Editar / Administrar"><i class="glyphicon glyphicon-edit"></i></a>
-                {{-- */ $confirm = $dictionary->translate('Esta seguro de eliminar este usuario?') /* --}}
+                {!! Form::open(['route' => ['evaluationUser.destroy', $evaluation->id], 'method' => 'delete']) !!}
+                 <a href="{!! route('evaluationUser.edit', [$evaluation->id]) !!}" class='btn btn-default btn-sm' data-toggle="tooltip" data-placement="top" title="Editar / Administrar"><i class="glyphicon glyphicon-edit"></i></a>
+                {{-- */ $confirm ='Esta seguro de eliminar esta asignación?' /* --}}
                 {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm', 'onclick' => "return confirm('$confirm')"]) !!}
 
                 {!! Form::close() !!}

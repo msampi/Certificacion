@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
     <section class="content-header">
         <h1>
-            {!! $dictionary->translate('Editar Mensaje') !!}
+            Editar Mensaje
         </h1>
    </section>
    <div class="content">
@@ -11,7 +11,7 @@
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($message, ['route' => ['admin.messages.update', $message->id], 'method' => 'patch']) !!}
+                   {!! Form::model($message, ['route' => ['messages.update', $message->id], 'method' => 'patch']) !!}
 
                         @include('admin.messages.fields')
 

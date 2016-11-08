@@ -28,9 +28,9 @@ class Message extends BaseModel
      * @var array
      */
     protected $casts = [
-        'subject' => 'array',
-        'from' => 'array',
-        'message' => 'array'
+        'subject' => 'string',
+        'from' => 'string',
+        'message' => 'text'
     ];
 
     /**
@@ -44,5 +44,5 @@ class Message extends BaseModel
     ];
 
 
-    //where('client_id', Auth::user()->client_id)->orWhere('client_id', '0')->
+    
 }

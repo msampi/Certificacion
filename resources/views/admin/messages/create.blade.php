@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
     <section class="content-header">
         <h1>
-            {!! $dictionary->translate('Nuevo Mensaje') !!}
+            Nuevo Mensaje
         </h1>
     </section>
     <div class="content">
@@ -12,7 +12,7 @@
 
             <div class="box-body">
                 <div class="row">
-                    {!! Form::open(['route' => 'admin.messages.store']) !!}
+                    {!! Form::open(['route' => 'messages.store']) !!}
 
                         @include('admin.messages.fields')
 

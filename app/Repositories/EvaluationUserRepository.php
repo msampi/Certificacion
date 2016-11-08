@@ -2,14 +2,15 @@
 
 namespace App\Repositories;
 
-use App\Models\EvaluationUserEvaluator;
+use App\Models\EvaluationUser;
 use InfyOm\Generator\Common\BaseRepository;
 use App\Criteria\EqualCriteria;
 use App\Library\EmailSend;
 use App\Models\User;
+use App\Models\EvaluationExcercise;
 
 
-class EvaluationUserEvaluatorRepository extends AdminBaseRepository
+class EvaluationUserRepository extends AdminBaseRepository
 {
     /**
      * @var array
@@ -23,64 +24,25 @@ class EvaluationUserEvaluatorRepository extends AdminBaseRepository
      **/
     public function model()
     {
-        return EvaluationUserEvaluator::class;
-    }
-
-    public function getLastEvaluation($user_id)
-    {
-        $recent =  $this->model->where('user_id','=', $user_id )->orderBy('created_at','desc')->first();
-        if(!$recent)
-            abort(503);
-        else
-            return $recent->evaluation_id;
+        return EvaluationUser::class;
     }
 
     public function create(array $input)
     {
-        if ($new_post_id = $this->saveNewPost($input))
-            $input['post_id'] = $new_post_id;
+        
         return parent::create($input);
+        
 
     }
 
     public function update(array $input, $id)
     {
-        if ($new_post_id = $this->saveNewPost($input))
-            $input['post_id'] = $new_post_id;
+        
         return parent::update($input, $id);
 
     }
 
-    private function generatePass()
-    {
-        $str1 = "";
-        $str2 = "";
-        $str3 = "";
-        $str4 = "";
-
-        #if ( $letras_mayusculas  )
-            $str1= "ABCDEFGHIJKLMNOPQRSTUVWXYZA";
-        #if ( $letras_minusculas )
-            $str2= "abcdefghijklmnopqrstuvwxyza";
-        #if ( $numeros )
-            $str3= "123456789012345678901234567";
-        #if ( $caracteres )
-            $str4= "!@#$%^&*()-=+*!@#$%^&*()_+*";
-
-        $cad = "";
-
-        for( $i=1; $i<=2; $i++ )
-            $cad .= substr( $str1, rand( 0, 25 ), 1 );
-        for( $i=1; $i<=2; $i++ )
-            $cad .= substr( $str2, rand( 0, 25 ), 1 );
-        for( $i=1; $i<=2; $i++ )
-            $cad .= substr( $str3, rand( 0, 25 ), 1 );
-        for( $i=1; $i<=2; $i++ )
-            $cad .= substr( $str4, rand( 0, 25 ), 1 );
-
-        return $cad;
-    }
-
+    
     public function saveFromExcel($data)
     {
         $ev = $this->model->firstOrCreate(['user_id' => $data['user_id'],'evaluation_id' => $data['evaluation_id'], 'post_id' => $data['post_id']]);

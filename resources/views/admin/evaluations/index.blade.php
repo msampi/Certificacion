@@ -1,10 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
     <section class="content-header">
-        <h1 class="pull-left">{!! $dictionary->translate('Evaluaciones')!!}</h1>
+        <h1 class="pull-left">Evaluaciones</h1>
         <h1 class="pull-right">
-           <a class="btn btn-primary pull-right"  href="{!! route('admin.evaluations.create') !!}">{!! $dictionary->translate('Nueva Evaluación')!!}</a>
+           <a class="btn btn-primary pull-right"  href="{!! route('evaluations.create') !!}">Nueva Evaluación</a>
         </h1>
     </section>
     <div class="content">

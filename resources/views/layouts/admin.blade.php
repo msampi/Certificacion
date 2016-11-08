@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>SC | Sistema de Certificación</title>
+    <title>Assessment</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-1.2.2.css') }}">
     <!-- Date Picker -->
     <link rel="stylesheet" href="{{ URL::asset('plugins/datepicker/datepicker3.css') }}">
+    <!-- Bootstrap Color Picker -->
+    <link rel="stylesheet" href="{{ URL::asset('plugins/colorpicker/bootstrap-colorpicker.min.css') }}">
     <!-- Daterange picker -->
     <link rel="stylesheet" href="{{ URL::asset('plugins/daterangepicker/daterangepicker-bs3.css') }}">
     <!-- bootstrap wysihtml5 - text editor -->
@@ -47,15 +49,15 @@
         <!-- Logo -->
         <a href="index2.html" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>Sistema de Certificación</b></span>
+          <span class="logo-mini"><b>AS</b></span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg">Sistema<b>SC</b></span>
+          <span class="logo-lg"><b>Assessment</b></span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Sidebar toggle button-->
           <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-            <span class="sr-only">Navegacion</span>
+            <span class="sr-only">Navegación</span>
           </a>
           <div class="navbar-custom-menu" style="float:right;">
             <ul class="nav navbar-nav">
@@ -125,12 +127,12 @@
               </a>
             </li>
 
-            <!--<li>
+            <li>
               <a href="{!! URL::asset( 'clients' ) !!}">
                 <i class="ion ion-ios-people"></i> <span>Clientes</span>
                 <small class="label pull-right bg-blue">{{ $clientCount }}</small>
               </a>
-            </li>-->
+            </li>
 
             <li>
               <a href="{!! URL::asset( 'users' ) !!}">
@@ -138,28 +140,38 @@
                 <small class="label pull-right bg-red">{{ $userCount }}</small>
               </a>
             </li>
-
-
-            <!--<li>
-              <a href="{!! URL::asset( 'admin/evaluations' ) !!}">
+            <li>
+                <a href="{!! URL::asset( 'competencies' ) !!}">
+                  <i class="ion ion-stats-bars"></i>Competencias
+                  <small class="label pull-right bg-blue">{{ $ratingCount }}</small>
+                </a>
+            </li>
+            <li>
+              <a href="{!! URL::asset( 'evaluations' ) !!}">
                 <i class="ion ion-ios-paper"></i> <span>Evaluaciones</span>
                 <small class="label pull-right bg-blue">{{ $evaluationCount }}</small>
               </a>
             </li>
             <li>
-              <a href="{!! URL::asset( 'admin/messages' ) !!}">
+              <a href="{!! URL::asset( 'exercises' ) !!}">
+                <i class="ion ion-ios-paper"></i> <span>Ejercicios</span>
+                <small class="label pull-right bg-blue">{{ $evaluationCount }}</small>
+              </a>
+            </li>
+            <li>
+              <a href="{!! URL::asset( 'messages' ) !!}">
                 <i class="ion ion-ios-email"></i> <span>Mensajes</span>
                 <small class="label pull-right bg-orange">2</small>
               </a>
             </li>
 
             <li>
-                <a href="{!! URL::asset( 'admin/ratings' ) !!}">
+                <a href="{!! URL::asset( 'ratings' ) !!}">
                   <i class="ion ion-stats-bars"></i>Ratings
                   <small class="label pull-right bg-blue">{{ $ratingCount }}</small>
                 </a>
             </li>
-            <li>
+            <!--<li>
                 <a href="{!! URL::asset( 'admin/trackings' ) !!}">
                   <i class="ion ion-arrow-graph-up-right"></i> Tracking
                   <small class="label pull-right bg-red">{{ $ratingCount }}</small>
@@ -228,12 +240,20 @@
 
     <script src="{{ URL::asset('plugins/datatables/jquery.dataTables.js') }}"></script>
     <script src="{{ URL::asset('plugins/datatables/dataTables.bootstrap.js') }}"></script>
-
+      
+    <script src="{{ URL::asset('plugins/input-mask/jquery.inputmask.js') }}"></script>
+    <script src="{{ URL::asset('plugins/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
+    <script src="{{ URL::asset('plugins/input-mask/jquery.inputmask.extensions.js') }}"></script>
+    <!-- bootstrap color picker -->
+    <script src="{{ URL::asset('plugins/colorpicker/bootstrap-colorpicker.min.js') }}"></script>
     <script src="{{ URL::asset('plugins/select2/select2.full.min.js') }}"></script>
-
-     <script src="{{ URL::asset('js/scripts.js') }}"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    
+    <script src="{{ URL::asset('js/admin.js') }}"></script>
 
     <script>
+        
+        var BASE_URL = '{!! url('/') !!}';
       $(function () {
 
         $('.search-table').DataTable({
@@ -255,7 +275,13 @@
 
 
         });
+          
+        $(".colorpicker").colorpicker();
+        $(".datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+        $(".hourmask").inputmask("hh:mm", {"placeholder": "hh:mm"});
+          
 
+          
       });
     </script>
 </body>

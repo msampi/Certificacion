@@ -12,9 +12,9 @@ class CompetencyItem extends BaseModel
 {
 
     public $fillable = [
-        'description',
+        'positive',
+        'negative',
         'competition_id',
-        'number',
         'import_id'
     ];
 
@@ -24,9 +24,7 @@ class CompetencyItem extends BaseModel
      * @var array
      */
     protected $casts = [
-        'description' => 'array',
         'competition_id' => 'integer',
-        'number' => 'integer',
         'import_id' => 'integer'
     ];
 
@@ -39,18 +37,6 @@ class CompetencyItem extends BaseModel
 
     ];
 
-    public function behaviourRatings()
-    {
-        return $this->hasMany('App\Models\BehaviourRating');
-    }
-
-    public function getBehaviourRating($stage, $entry, $user_id)
-    {
-        foreach ($this->behaviourRatings as $bh) {
-            if ($bh->stage == $stage && $bh->entry == $entry && $bh->user_id == $user_id)
-                return $bh;
-        }
-        return new BehaviourRating();
-    }
+    
 
 }

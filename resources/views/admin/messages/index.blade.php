@@ -1,10 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
     <section class="content-header">
-        <h1 class="pull-left">{!! $dictionary->translate('Mensajes') !!}</h1>
+        <h1 class="pull-left">Mensajes</h1>
         <h1 class="pull-right">
-           <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{!! route('admin.messages.create') !!}">{!! $dictionary->translate('Nuevo Mensaje') !!}</a>
+           <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{!! route('messages.create') !!}">Nuevo Mensaje</a>
         </h1>
     </section>
     <div class="content">

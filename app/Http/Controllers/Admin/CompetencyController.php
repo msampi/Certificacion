@@ -5,78 +5,72 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Requests;
 use App\Models\Post;
-use App\Http\Requests\CreateCompetitionRequest;
-use App\Http\Requests\UpdateCompetitionRequest;
-use App\Repositories\CompetitionRepository;
+use App\Http\Requests\CreateCompetencyRequest;
+use App\Http\Requests\UpdateCompetencyRequest;
+use App\Repositories\CompetencyRepository;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
-class CompetitionController extends AdminBaseController
+class CompetencyController extends AdminController
 {
-    /** @var  CompetitionRepository */
-    private $competitionRepository;
+    /** @var  CompetencyRepository */
+    private $competencyRepository;
 
 
-    public function __construct(CompetitionRepository $competitionRepo)
+    public function __construct(competencyRepository $competencyRepo)
     {
-        $this->competitionRepository = $competitionRepo;
-        parent::__construct();
-
+        $this->competencyRepository = $competencyRepo;
+    
     }
 
     /**
-     * Display a listing of the Competition.
+     * Display a listing of the competency.
      *
      * @param Request $request
      * @return Response
      */
     public function index(Request $request)
     {
-        $this->competitionRepository->pushCriteria(new RequestCriteria($request));
-        $competitions = $this->competitionRepository->all();
-        $evaluation = $this->evaRepo->find($request->search);
+        $this->competencyRepository->pushCriteria(new RequestCriteria($request));
+        $competencies = $this->competencyRepository->all();
+        
 
-        return view('admin.competitions.index')->with('competitions', $competitions)
-                                               ->with('evaluation', $evaluation);
+        return view('admin.competencies.index')->with('competencies', $competencies);
     }
 
     /**
-     * Show the form for creating a new Competition.
+     * Show the form for creating a new Competency.
      *
      * @return Response
      */
     public function create(Request $request)
     {
-        $post = new Post();
-        parent::loadLangScript();
-        $languages = $this->languageRepository->all();
-        return view('admin.competitions.create')->with('evaluation_id', $request->search)
-                                                ->with('posts', $post->listCurrentLang('id', 'name'))
-                                                ->with('languages', $languages);
+        
+        return view('admin.competencies.create');
     }
 
     /**
-     * Store a newly created Competition in storage.
+     * Store a newly created competency in storage.
      *
-     * @param CreateCompetitionRequest $request
+     * @param CreateCompetencyRequest $request
      *
      * @return Response
      */
-    public function store(CreateCompetitionRequest $request)
+    public function store(CreatecompetencyRequest $request)
     {
         $input = $request->all();
 
-        $competition = $this->competitionRepository->create($input);
+        $competency = $this->competencyRepository->create($input);
 
-        Flash::success($this->dictionary->translate('Competencia guardada correctamente'));
+        Flash::success('Competencia guardada correctamente');
 
-        return redirect()->route('admin.competitions.index','search='.$competition->evaluation_id);
+        return redirect()->route('competencies.index');
     }
 
     /**
-     * Show the form for editing the specified Competition.
+     * Show the form for editing the specified Competency.
      *
      * @param  int $id
      *
@@ -84,50 +78,46 @@ class CompetitionController extends AdminBaseController
      */
     public function edit($id)
     {
-        $post = new Post();
-        parent::loadLangScript();
-        $competition = $this->competitionRepository->findWithoutFail($id);
-        $languages = $this->languageRepository->all();
-        if (empty($competition)) {
-            Flash::error($this->dictionary->translate('Competencia no encontrada'));
+        
+        $competency = $this->competencyRepository->findWithoutFail($id);
+       
+        if (empty($competency)) {
+            Flash::error('Competencia no encontrada');
 
-            return redirect()->route('admin.competitions.index', 'search='.$competition->evaluation_id);
+            return redirect()->route('admin.competencies.index', 'search='.$competency->evaluation_id);
         }
 
-        return view('admin.competitions.edit')->with('competition', $competition)
-                                              ->with('posts', $post->listCurrentLang('id', 'name'))
-                                              ->with('evaluation_id', $competition->evaluation_id)
-                                              ->with('languages', $languages);
+        return view('admin.competencies.edit')->with('competency', $competency);
     }
 
     /**
-     * Update the specified Competition in storage.
+     * Update the specified competency in storage.
      *
      * @param  int              $id
-     * @param UpdateCompetitionRequest $request
+     * @param UpdatecompetencyRequest $request
      *
      * @return Response
      */
-    public function update($id, UpdateCompetitionRequest $request)
+    public function update($id, UpdatecompetencyRequest $request)
     {
-        $competition = $this->competitionRepository->findWithoutFail($id);
+        $competency = $this->competencyRepository->findWithoutFail($id);
 
-        if (empty($competition)) {
-            Flash::error($this->dictionary->translate('Competencia no encontrada'));
+        if (empty($competency)) {
+            Flash::error('Competencia no encontrada');
 
-            return redirect()->route('admin.competitions.index');
+            return redirect()->route('competencies.index');
         }
 
-        $competition = $this->competitionRepository->update($request->all(), $id);
+        $competency = $this->competencyRepository->update($request->all(), $id);
 
 
-        Flash::success($this->dictionary->translate('Competencia actualizada correctamente'));
+        Flash::success('Competencia actualizada correctamente');
 
-        return redirect()->route('admin.competitions.index', 'search='.$competition->evaluation_id);
+        return redirect()->route('competencies.index');
     }
 
     /**
-     * Remove the specified Competition from storage.
+     * Remove the specified competency from storage.
      *
      * @param  int $id
      *
@@ -135,18 +125,18 @@ class CompetitionController extends AdminBaseController
      */
     public function destroy($id)
     {
-        $competition = $this->competitionRepository->findWithoutFail($id);
+        $competency = $this->competencyRepository->findWithoutFail($id);
 
-        if (empty($competition)) {
-            Flash::error($this->dictionary->translate('Competencia no encontrada'));
+        if (empty($competency)) {
+            Flash::error('Competencia no encontrada');
 
-            return redirect()->route('admin.competitions.index');
+            return redirect()->route('competencies.index');
         }
 
-        $this->competitionRepository->delete($id);
+        $this->competencyRepository->delete($id);
 
-        Flash::success($this->dictionary->translate('Competencia eliminada correctamente'));
+        Flash::success('Competencia eliminada correctamente');
 
-        return redirect()->route('admin.competitions.index','search='.$competition->evaluation_id);
+        return redirect()->route('competencies.index');
     }
 }

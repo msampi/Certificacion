@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
  <section class="content-header">
         <h1>
-            Evaluation
+            Nueva Evaluación
         </h1>
     </section>
     <div class="content">
@@ -12,7 +12,7 @@
 
             <div class="box-body">
                 <div class="row">
-                    {!! Form::open(['route' => 'admin.evaluations.store', 'files' => true]) !!}
+                    {!! Form::open(['route' => 'evaluations.store', 'files' => true]) !!}
 
                               @include('admin.evaluations.fields')
 

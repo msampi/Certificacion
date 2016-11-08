@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
    <section class="content-header">
            <h1>
-               {!! $dictionary->translate('Editar Rating') !!}
+               Editar Rating
            </h1>
    </section>
    <div class="content">
@@ -12,7 +12,7 @@
 
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($rating, ['route' => ['admin.ratings.update', $rating->id], 'method' => 'patch']) !!}
+                   {!! Form::model($rating, ['route' => ['ratings.update', $rating->id], 'method' => 'patch']) !!}
 
                     @include('admin.ratings.fields')
 

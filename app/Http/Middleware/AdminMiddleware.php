@@ -16,7 +16,7 @@ class AdminMiddleware
     public function handle($request, Closure $next)
     {
         if ( $request->user() ) :
-            if( $request->user()->role_id == 1 || $request->user()->role_id == 2 )
+            if( $request->user()->role_id == 1 )
                 return $next($request);
             else
                 abort('404');

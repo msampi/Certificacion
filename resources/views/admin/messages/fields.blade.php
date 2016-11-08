@@ -1,76 +1,65 @@
 <!-- Title Field -->
-<div class="form-group col-sm-12 multilang-group">
+<div class="form-group col-sm-8">
 
-	{!! Form::label('subject', $dictionary->translate('Asunto').': ') !!}
-	@foreach ($languages as $language)
-
-	    {!! Form::text('subject['.$language->id.']', null, ['class' => 'form-control multilang', 'data-lang' => $language->name, $disabled]) !!}
-
-	@endforeach
+	{!! Form::label('subject', 'Asunto: ') !!}
+    {!! Form::text('subject', null, ['class' => 'form-control']) !!}
 
 </div>
 
-<div class="form-group col-sm-12 ">
-      {!! Form::label('client', $dictionary->translate('Cliente').':') !!}
-      {!! Form::select('client_id',  $clients, null,  ['class' => 'form-control', $disabled]) !!}
+<div class="form-group col-sm-4 ">
+      {!! Form::label('client', 'Cliente:') !!}
+      {!! Form::select('client_id',  $clients, null,  ['class' => 'form-control']) !!}
 </div>
 
-<div class="form-group col-sm-12 multilang-group">
+<div class="form-group col-sm-12">
 
-	{!! Form::label('from', $dictionary->translate('De').':') !!}
-	@foreach ($languages as $language)
-
-	    {!! Form::text('from['.$language->id.']', null, ['class' => 'form-control multilang', 'data-lang' => $language->name , $disabled]) !!}
-
-	@endforeach
+	{!! Form::label('from', 'De:') !!}
+    {!! Form::text('from', null, ['class' => 'form-control']) !!}
 
 </div>
 
 <!-- Message Field -->
-<div class="form-group col-sm-12 multilang-group">
-    {!! Form::label('message', $dictionary->translate('Mensaje').':') !!}
-    @foreach ($languages as $language)
-    	<div class="multilang" data-lang="{!! $language->name !!}">
-    	{!! Form::textarea('message['.$language->id.']', null, ['class' => 'form-control textarea ', $disabled]) !!}
-    	</div>
-
-    @endforeach
+<div class="form-group col-sm-12">
+    
+    {!! Form::label('message', 'Mensaje:') !!}	
+    {!! Form::textarea('message', null, ['class' => 'form-control']) !!}
+    
 </div>
 
 <div class="col-md-12">
 	<table class="table table-bordered">
 	    <thead>
-	        <th width="20%">{!! $dictionary->translate('Palabra Reservada') !!}</th>
-	        <th>{!! $dictionary->translate('Descripción') !!}</th>
+	        <th width="20%">Palabra Reservada</th>
+	        <th>Descripción</th>
 	    </thead>
 	    <tbody>
 	    <tr>
 				<td>user_name</td>
-				<td>{!! $dictionary->translate('Nombre de usuario') !!}.</td>
+				<td>Nombre de usuario.</td>
 	    </tr>
 			<tr>
 				<td>user_last_name</td>
-				<td>{!! $dictionary->translate('Apellido de usuario') !!}.</td>
+				<td>Apellido de usuario.</td>
 	    </tr>
 			<tr>
 				<td>user_email</td>
-				<td>{!! $dictionary->translate('Email de usuario') !!}.</td>
+				<td>Email de usuario.</td>
 	    </tr>
 			<tr>
 				<td>user_password</td>
-				<td>{!! $dictionary->translate('Contraseña de usuario') !!}.</td>
+				<td>Contraseña de usuario.</td>
 	    </tr>
 			<tr>
 				<td>client_name</td>
-				<td>{!! $dictionary->translate('Nombre de cliente') !!}.</td>
+				<td>Nombre de cliente.</td>
 	    </tr>
 			<tr>
 				<td>web_link</td>
-				<td>{!! $dictionary->translate('Link de acceso a la plataforma') !!}.</td>
+				<td>Link de acceso a la plataforma.</td>
 	    </tr>
 			<tr>
 				<td>evaluation_name</td>
-				<td>{!! $dictionary->translate('Nombre de la evaluación') !!}.</td>
+				<td>Nombre de la evaluación.</td>
 	    </tr>
 	    </tbody>
 	</table>
@@ -79,6 +68,6 @@
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
-    {!! Form::submit($dictionary->translate('Guardar'), ['class' => 'btn btn-primary']) !!}
-    <a href="{!! route('admin.messages.index') !!}" class="btn btn-default">{!! $dictionary->translate('Cancelar') !!}</a>
+    {!! Form::submit('Guardar', ['class' => 'btn btn-primary']) !!}
+    <a href="{!! route('messages.index') !!}" class="btn btn-default">Cancelar</a>
 </div>

@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\CompetencyItem;
+use App\Models\Exercise;
 
-class CreateCompetencyItemRequest extends Request
+class UpdateExerciseRequest extends Request
 {
 
     /**
@@ -25,6 +25,6 @@ class CreateCompetencyItemRequest extends Request
      */
     public function rules()
     {
-        return CompetencyItem::$rules;
+        return Exercise::$rules;
     }
 }

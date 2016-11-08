@@ -188,6 +188,7 @@
      <script src="{{ URL::asset('js/frontend.js') }}"></script>
 
     <script>
+        var BASE_URL = '{!! url('/') !!}';
       $(function () {
         $('.search-table').DataTable({
           "paging": true,

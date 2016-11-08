@@ -12,14 +12,13 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
-class ClientController extends AdminBaseController
+class ClientController extends AdminController
 {
     /** @var  clientRepository */
     private $clientRepository;
 
     public function __construct(ClientRepository $clientRepo)
     {
-        parent::__construct();
         $this->clientRepository = $clientRepo;
     }
 
@@ -59,11 +58,11 @@ class ClientController extends AdminBaseController
     {
         $input = $request->all();
 
-        $input['logo'] = $this->uploadImage($request, 'logo');
+        $input['logo'] = $this->uploadFile($request, 'logo');
 
         $clients = $this->clientRepository->create($input);
 
-        Flash::success($this->dictionary->translate('Cliente guardado correctamente'));
+        Flash::success('Cliente guardado correctamente');
 
         return redirect()->route('clients.index');
     }
@@ -81,7 +80,7 @@ class ClientController extends AdminBaseController
         $client = $this->clientRepository->findWithoutFail($id);
 
         if (empty($client)) {
-            Flash::error($this->dictionary->translate('Cliente no encontrado'));
+            Flash::error('Cliente no encontrado');
 
             return redirect(route('clients.index'));
         }
@@ -103,7 +102,7 @@ class ClientController extends AdminBaseController
         $client = $this->clientRepository->findWithoutFail($id);
 
         if (empty($client)) {
-            Flash::error($this->dictionary->translate('Cliente no encontrado'));
+            Flash::error('Cliente no encontrado');
 
             return redirect(route('clients.index'));
         }
@@ -115,7 +114,7 @@ class ClientController extends AdminBaseController
 
         $client = $this->clientRepository->update($input, $id);
 
-        Flash::success($this->dictionary->translate('Cliente actualizado correctamente'));
+        Flash::success('Cliente actualizado correctamente');
 
         return redirect(route('clients.index'));
     }
@@ -132,7 +131,7 @@ class ClientController extends AdminBaseController
         $client = $this->clientRepository->findWithoutFail($id);
 
         if (empty($client)) {
-            Flash::error($this->dictionary->translate('Cliente no encontrado'));
+            Flash::error('Cliente no encontrado');
 
             return redirect(route('clients.index'));
         }
@@ -141,7 +140,7 @@ class ClientController extends AdminBaseController
 
         $this->clientRepository->delete($id);
 
-        Flash::success($this->dictionary->translate('Cliente eliminado correctamente'));
+        Flash::success('Cliente eliminado correctamente');
 
         return redirect(route('clients.index'));
     }

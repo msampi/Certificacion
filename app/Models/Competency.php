@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Models;
-use App\Models\CompetitionComment;
 
 use Eloquent as Model;
 
@@ -17,7 +16,6 @@ class Competency extends BaseModel
         'post_id',
         'evaluation_id',
         'description',
-        'weight'
     ];
 
     /**
@@ -28,7 +26,6 @@ class Competency extends BaseModel
     protected $casts = [
         'name' => 'array',
         'description' => 'array',
-        'weight' => 'integer'
     ];
 
     /**
@@ -40,29 +37,11 @@ class Competency extends BaseModel
         'name' => 'required'
     ];
 
-    public function behaviours()
+    public function items()
     {
-        return $this->hasMany('App\Models\Behaviour');
+        return $this->hasMany('App\Models\CompetencyItem');
     }
 
-    public function comments()
-    {
-        return $this->hasMany('App\Models\CompetitionComment');
-    }
-
-    public function getComment($stage, $entry, $user_id)
-    {
-        foreach ($this->comments as $comment) {
-
-            if ($comment->entry == $entry && $comment->stage == $stage && $comment->user_id == $user_id)
-                return $comment;
-        }
-        return new CompetitionComment();
-    }
-
-    public function post()
-    {
-        return $this->belongsTo('App\Models\Post');
-    }
+    
 
 }

@@ -4,18 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests;
 use App\Http\Requests\CreateMessageRequest;
-use App\Criteria\ClientCriteria;
-use App\Criteria\ClientEmptyCriteria;
 use App\Http\Requests\UpdateMessageRequest;
 use App\Repositories\MessageRepository;
-use App\Repositories\LanguageRepository;
 use App\Http\Controllers\AppBaseController as InfyOmBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use App\Models\Client;
 
-class MessageController extends AdminBaseController
+class MessageController extends AdminController
 {
     /** @var  MessageRepository */
     protected $messageRepository;
@@ -23,9 +21,7 @@ class MessageController extends AdminBaseController
     public function __construct(MessageRepository $messageRepo)
     {
         $this->messageRepository = $messageRepo;
-        parent::__construct();
-        if ($this->superadmin)
-          $this->clients->prepend('Todos', '');
+       
     }
 
     /**
@@ -36,8 +32,7 @@ class MessageController extends AdminBaseController
      */
     public function index(Request $request)
     {
-        $this->messageRepository->pushCriteria(new ClientCriteria($this->superadmin));
-        $this->messageRepository->pushCriteria(new ClientEmptyCriteria($this->superadmin));
+    
         $messages = $this->messageRepository->all();
 
         return view('admin.messages.index')
@@ -51,10 +46,8 @@ class MessageController extends AdminBaseController
      */
     public function create()
     {
-        $languages = $this->languageRepository->all();
-        return view('admin.messages.create')->with('languages', $languages)
-                                            ->with('clients', $this->clients)
-                                            ->with('disabled', NULL);
+       
+        return view('admin.messages.create')->with('clients', Client::lists('name','id')->prepend('Todos', ''));
     }
 
     /**
@@ -70,9 +63,9 @@ class MessageController extends AdminBaseController
 
         $message = $this->messageRepository->create($input);
 
-        Flash::success($this->dictionary->translate('Mensaje guardado correctamente'));
+        Flash::success('Mensaje guardado correctamente');
 
-        return redirect(route('admin.messages.index'));
+        return redirect(route('messages.index'));
     }
 
     /**
@@ -85,18 +78,15 @@ class MessageController extends AdminBaseController
     public function edit($id)
     {
         $message = $this->messageRepository->findWithoutFail($id);
-        $languages = $this->languageRepository->all();
-
+    
         if (empty($message)) {
-            Flash::error($this->dictionary->translate('Mensaje no encontrado'));
-            return redirect(route('admin.messages.index'));
+            Flash::error('Mensaje no encontrado');
+            return redirect(route('messages.index'));
         }
 
-        $disabled = (!$message->client_id && !$this->superadmin) ? 'disabled' : 'false';
+        
         return view('admin.messages.edit')->with('message', $message)
-                                          ->with('languages', $languages)
-                                          ->with('clients', $this->clients)
-                                          ->with('disabled', $disabled);
+                                          ->with('clients', Client::lists('name','id')->prepend('Todos', ''));
     }
 
     /**
@@ -112,16 +102,16 @@ class MessageController extends AdminBaseController
         $message = $this->messageRepository->findWithoutFail($id);
 
         if (empty($message)) {
-            Flash::error($this->dictionary->translate('Mensaje no encontrado'));
+            Flash::error('Mensaje no encontrado');
 
-            return redirect(route('admin.messages.index'));
+            return redirect(route('messages.index'));
         }
 
         $message = $this->messageRepository->update($request->all(), $id);
 
-        Flash::success($this->dictionary->translate('Mensaje actualizado correctamente'));
+        Flash::success('Mensaje actualizado correctamente');
 
-        return redirect(route('admin.messages.index'));
+        return redirect(route('messages.index'));
     }
 
     /**
@@ -136,14 +126,14 @@ class MessageController extends AdminBaseController
         $message = $this->messageRepository->findWithoutFail($id);
 
         if (empty($message)) {
-            Flash::error($this->dictionary->translate('Mensaje no encontrado'));
+            Flash::error('Mensaje no encontrado');
 
             return redirect(route('messages.index'));
         }
 
         $this->messageRepository->delete($id);
 
-        Flash::success($this->dictionary->translate('Mensaje eliminado correctamente'));
+        Flash::success('Mensaje eliminado correctamente');
 
         return redirect(route('messages.index'));
     }

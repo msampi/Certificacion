@@ -40,6 +40,6 @@ class Rating extends BaseModel
     ];
 
     public function values(){
-        return $this->hasMany('App\Models\Value');
+        return $this->hasMany('App\Models\RatingValue');
     }
 }

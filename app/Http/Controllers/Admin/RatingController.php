@@ -11,18 +11,16 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
-use App\Repositories\ValueRepository;
 
 
 
-class RatingController extends AdminBaseController
+class RatingController extends AdminController
 {
     private $ratingRepository;
 
     public function __construct( RatingRepository $rating )
     {
         $this->ratingRepository = $rating;
-        parent::__construct();
     }
 
     /**
@@ -46,9 +44,7 @@ class RatingController extends AdminBaseController
      */
     public function create()
     {
-        parent::loadLangScript();
-        $languages = $this->languageRepository->all();
-        return view('admin.ratings.create')->with('languages', $languages);
+        return view('admin.ratings.create');
     }
 
     /**
@@ -58,15 +54,15 @@ class RatingController extends AdminBaseController
      *
      * @return Response
      */
-    public function store(CreateRatingRequest $request, RatingRepository $ratingRepository, ValueRepository $valueRepository)
+    public function store(CreateRatingRequest $request, RatingRepository $ratingRepository)
     {
         $input = $request->all();
 
         $rating = $ratingRepository->create($input);
 
-        Flash::success($this->dictionary->translate('Rating guardado correctamente'));
+        Flash::success('Rating guardado correctamente');
 
-        return redirect()->route('admin.ratings.index');
+        return redirect()->route('ratings.index');
     }
 
     /**
@@ -79,16 +75,15 @@ class RatingController extends AdminBaseController
     public function edit($id, RatingRepository $ratingRepository)
     {
         $rating = $ratingRepository->findWithoutFail($id);
-        $languages = $this->languageRepository->all();
-        parent::loadLangScript();
+        
+       
         if (empty($rating)) {
-            Flash::error($this->dictionary->translate('Rating no encontrado'));
+            Flash::error('Rating no encontrado');
 
-            return redirect()->route('admin.ratings.index');
+            return redirect()->route('ratings.index');
         }
 
-        return view('admin.ratings.edit')->with('rating', $rating)
-                                         ->with('languages', $languages);
+        return view('admin.ratings.edit')->with('rating', $rating);
     }
 
     /**
@@ -99,21 +94,21 @@ class RatingController extends AdminBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateRatingRequest $request, RatingRepository $ratingRepository, ValueRepository $valueRepository)
+    public function update($id, UpdateRatingRequest $request, RatingRepository $ratingRepository)
     {
         $rating = $ratingRepository->findWithoutFail($id);
 
         if (empty($rating)) {
-            Flash::error($this->dictionary->translate('Rating no encontrado'));
+            Flash::error('Rating no encontrado');
 
-            return redirect()->route('admin.ratings.index');
+            return redirect()->route('ratings.index');
         }
 
         $rating = $ratingRepository->update($request->all(), $id);
 
-        Flash::success($this->dictionary->translate('Rating actualizado correctamente'));
+        Flash::success('Rating actualizado correctamente');
 
-        return redirect()->route('admin.ratings.index');
+        return redirect()->route('ratings.index');
     }
 
     /**
@@ -128,15 +123,15 @@ class RatingController extends AdminBaseController
         $rating = $ratingRepository->findWithoutFail($id);
 
         if (empty($rating)) {
-            Flash::error($this->dictionary->translate('Rating no encontrado'));
+            Flash::error('Rating no encontrado');
 
-            return redirect()->route('admin.ratings.index');
+            return redirect()->route('ratings.index');
         }
 
         $ratingRepository->delete($id);
 
-        Flash::success($this->dictionary->translate('Rating eliminado correctamente'));
+        Flash::success('Rating eliminado correctamente');
 
-        return redirect()->route('admin.ratings.index');
+        return redirect()->route('ratings.index');
     }
 }

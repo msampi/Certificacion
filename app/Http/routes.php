@@ -17,3 +17,6 @@ Route::auth();
 require app_path().'/Http/Routes/admin_routes.php';
 require app_path().'/Http/Routes/consultant_routes.php';
 require app_path().'/Http/Routes/competitor_routes.php';
+require app_path().'/Http/Routes/client_routes.php';
+
+

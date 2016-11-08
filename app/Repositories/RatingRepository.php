@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Rating;
-use App\Models\Value;
+use App\Models\RatingValue;
 use InfyOm\Generator\Common\BaseRepository;
 
 class RatingRepository extends BaseRepository
@@ -38,11 +38,12 @@ class RatingRepository extends BaseRepository
 
         $rating = parent::create($input);
 
-        if (isset($input['values']))
-            foreach ($input['values'] as $v) {
-                $value = new Value();
+        if (isset($input['items']))
+            foreach ($input['items'] as $v) {
+                $value = new RatingValue();
                 $value->rating_id = $rating->id;
-                $value->value = $v;
+                $value->value = $v['value'];
+                $value->name = $v['name'];
                 $value->save();
             }
         return $rating;
@@ -54,18 +55,19 @@ class RatingRepository extends BaseRepository
 
         $rating = parent::update($input, $id);
        
-        if (isset($input['values']))
-            foreach ($input['values'] as $key => $v) {
-                $value = Value::firstOrNew(['id' => $key]);
+        if (isset($input['items']))
+            foreach ($input['items'] as $key => $v) {
+                $value = RatingValue::firstOrNew(['id' => $key]);
                 $value->rating_id = $rating->id;
-                $value->value = $v;
+                $value->value = $v['value'];
+                $value->name = $v['name'];
                 $value->save();
             }
 
         $deleteInput = explode(',',$input['remove-item-list']);
         foreach ($deleteInput as $value) {
             if ($value)
-                Value::where('id',$value)->delete();
+                RatingValue::where('id',$value)->delete();
         }
 
         return $rating;

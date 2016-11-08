@@ -4,29 +4,35 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\AppBaseController;
 use App\Http\Requests;
-use App\Http\Requests\CreateEvaluationUserEvaluatorRequest;
-use App\Http\Requests\UpdateEvaluationUserEvaluatorRequest;
-use App\Repositories\EvaluationUserEvaluatorRepository;
+use App\Http\Requests\CreateEvaluationUserRequest;
+use App\Http\Requests\UpdateEvaluationUserRequest;
+use App\Repositories\EvaluationUserRepository;
 use App\Repositories\EvaluationRepository;
+use App\Repositories\UserRepository;
+use App\Criteria\ConsultantCriteria;
+use App\Criteria\CompetitorCriteria;
+use Prettus\Repository\Criteria\RequestCriteria;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Flash;
-use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
-use App\Models\Rating;
-use App\Models\Post;
-use App\Models\User;
 
 
-class EvaluationUserEvaluatorController extends AdminBaseController
+
+class EvaluationUserController extends AdminController
 {
     /** @var  EvaluationRepository */
-    private $evaluationUserEvaluatorRepository;
+    private $evaluationUserRepository;
+    private $evaluationRepository;
 
 
-    public function __construct(EvaluationUserEvaluatorRepository $evaluationUserEvaluatorRepo)
+    public function __construct(EvaluationUserRepository $evaluationUserRepo, 
+                                EvaluationRepository $evaluationRepo)
     {
-        $this->evaluationUserEvaluatorRepository = $evaluationUserEvaluatorRepo;
-        parent::__construct();
+        $this->evaluationUserRepository = $evaluationUserRepo;
+        $this->evaluationRepository = $evaluationRepo;
+        
+       
     }
 
     /**
@@ -37,12 +43,14 @@ class EvaluationUserEvaluatorController extends AdminBaseController
      */
     public function index(Request $request)
     {
-        $this->evaluationUserEvaluatorRepository->pushCriteria(new RequestCriteria($request));
-        $evaluation_users = $this->evaluationUserEvaluatorRepository->all();
-        $evaluation = $this->evaRepo->find($request->search);
+        $this->evaluationUserRepository->pushCriteria(new RequestCriteria($request));
+        $this->evaluationRepository->pushCriteria(new RequestCriteria($request));
+        $evaluation_users = $this->evaluationUserRepository->all();
+        $evaluation = $this->evaluationRepository->first();
+        
 
-        return view('admin.evaluationUserEvaluators.index')->with('evaluation_users', $evaluation_users)
-                                                            ->with('evaluation', $evaluation);
+        return view('admin.evaluationUser.index')->with('evaluation_users', $evaluation_users)
+                                                 ->with('evaluation', $evaluation);
 
 
     }
@@ -54,13 +62,16 @@ class EvaluationUserEvaluatorController extends AdminBaseController
      */
     public function create(Request $request)
     {
-        $post = new Post();
-        $evaluation = $this->evaRepo->find($request->search);
-        $users = User::where('role_id', 3)->where('client_id', $evaluation->client_id)->lists('email', 'id');
-        $users->prepend('Ninguno', '');
-        return view('admin.evaluationUserEvaluators.create')->with('posts', $post->listCurrentLang('id', 'name'))
-                                                            ->with('evaluation', $evaluation)
-                                                            ->with('users', $users) ;
+       
+        $evaluation = $this->evaluationRepository->find($request->search);
+        $consultants = User::where('role_id',4)->where('client_id',$evaluation->client_id)
+                                               ->lists('email','id');  
+        $competitors = User::where('role_id',3)->where('client_id',$evaluation->client_id)
+                                               ->lists('email','id');  
+    
+        return view('admin.evaluationUser.create')->with('evaluation', $evaluation)
+                                                            ->with('competitors', $competitors)
+                                                            ->with('consultants', $consultants);
     }
 
     /**
@@ -70,23 +81,16 @@ class EvaluationUserEvaluatorController extends AdminBaseController
      *
      * @return Response
      */
-    public function store(CreateEvaluationUserEvaluatorRequest $request)
+    public function store(CreateEvaluationUserRequest $request)
     {
 
         $input = $request->all();
 
+        $evaluation = $this->evaluationUserRepository->create($input);
 
-        if ($request->get('user_id') == $request->get('evaluator_id') ) {
+        Flash::success('Asignación guardada correctamente');
 
-            return redirect(route('admin.evaluationUserEvaluators.create', 'search='.$request->get('evaluation_id')))->withErrors([$this->dictionary->translate('Un usuario no puede ser evaluado por si mismo')]);
-
-        }
-
-        $evaluation = $this->evaluationUserEvaluatorRepository->updateOrCreate(['evaluation_id' => $input['evaluation_id'], 'evaluator_id' => $input['evaluator_id'], 'user_id' => $input['user_id'] ], $input);
-
-        Flash::success($this->dictionary->translate('Evaluación guardada correctamente'));
-
-        return redirect(route('admin.evaluationUserEvaluators.index','search='.$request->get('evaluation_id')));
+        return redirect(route('evaluationUser.index','search='.$request->get('evaluation_id')));
 
     }
 
@@ -101,19 +105,21 @@ class EvaluationUserEvaluatorController extends AdminBaseController
      */
     public function edit($id)
     {
-        $eue = $this->evaluationUserEvaluatorRepository->findWithoutFail($id);
-        $evaluation = $this->evaRepo->find($eue->evaluation_id);
-        $post = new Post();
+        $evaluation = $this->evaluationUserRepository->findWithoutFail($id);
+        
+        $consultants = User::where('role_id',4)->where('client_id',$evaluation->client_id)
+                                               ->lists('email','id');  
+        $competitors = User::where('role_id',3)->where('client_id',$evaluation->client_id)
+                                               ->lists('email','id');  
         if (empty($evaluation)) {
             Flash::error($this->dictionary->translate('Evaluación no encontrada'));
 
-            return redirect(route('admin.evaluationUserEvaluators.index'));
+            return redirect(route('admin.evaluationUser.index'));
         }
 
-        return view('admin.evaluationUserEvaluators.edit')->with('evaluation', $evaluation)
-                                                          ->with('eue', $eue)
-                                                          ->with('posts', $post->listCurrentLang('id', 'name'))
-                                                          ->with('users', User::where('role_id', 3)->lists('email', 'id'));;
+        return view('admin.evaluationUser.edit')->with('evaluation', $evaluation)
+                                                          ->with('competitors', $competitors)
+                                                          ->with('consultants', $consultants);
     }
 
     /**
@@ -162,18 +168,18 @@ class EvaluationUserEvaluatorController extends AdminBaseController
      */
     public function destroy($id)
     {
-        $evaluation = $this->evaluationUserEvaluatorRepository->findWithoutFail($id);
+        $evaluation = $this->evaluationUserRepository->findWithoutFail($id);
 
         if (empty($evaluation)) {
-            Flash::error($this->dictionary->translate('Evaluación no encontrada'));
+            Flash::error('Asignación no encontrada');
 
-            return redirect(route('admin.evaluationUserEvaluators.index'));
+            return redirect(route('evaluationUser.index'));
         }
 
-        $this->evaluationUserEvaluatorRepository->delete($id);
+        $this->evaluationUserRepository->delete($id);
 
-        Flash::success($this->dictionary->translate('Evaluación eliminada correctamente'));
+        Flash::success('Asignación eliminada correctamente');
 
-        return redirect(route('admin.evaluationUserEvaluators.index', 'search='.$evaluation->evaluation_id));
+        return redirect(route('evaluationUser.index', 'search='.$evaluation->evaluation_id));
     }
 }

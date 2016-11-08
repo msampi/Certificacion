@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
    <section class="content-header">
            <h1>
-               Competition
+               Editar Competencia
            </h1>
    </section>
    <div class="content">
@@ -12,9 +12,9 @@
 
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($competition, ['route' => ['admin.competitions.update', $competition->id], 'method' => 'patch']) !!}
+                   {!! Form::model($competency, ['route' => ['competencies.update', $competency->id], 'method' => 'patch']) !!}
 
-                    @include('admin.competitions.fields')
+                    @include('admin.competencies.fields')
 
                    {!! Form::close() !!}
                </div>

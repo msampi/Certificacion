@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Models\Competition;
-use App\Models\Behaviour;
+use App\Models\Competency;
+use App\Models\CompetencyItem;
 
 use InfyOm\Generator\Common\BaseRepository;
 
@@ -13,7 +13,7 @@ class CompetencyRepository extends AdminBaseRepository
      * @var array
      */
     protected $fieldSearchable = [
-        'evaluation_id'
+       
     ];
 
     /**
@@ -21,7 +21,7 @@ class CompetencyRepository extends AdminBaseRepository
      **/
     public function model()
     {
-        return Competition::class;
+        return Competency::class;
     }
 
     public function saveFromExcel($row, $evaluation_id, $post_id, $lang)
@@ -42,38 +42,40 @@ class CompetencyRepository extends AdminBaseRepository
     public function create(array $input)
     {
 
-        $competition = parent::create($input);
+        $competency = parent::create($input);
 
-        if (isset($input['behaviours']))
-            foreach ($input['behaviours'] as $value) {
-                $behaviour = new Behaviour();
-                $behaviour->competition_id = $competition->id;
-                $behaviour->description = $value;
-                $behaviour->save();
+        if (isset($input['items']))
+            foreach ($input['items'] as $value) {
+                $item = new CompetencyItem();
+                $item->competency_id = $competency->id;
+                $item->positive = $value['positivo'];
+                $item->negative = $value['negativo'];
+                $item->save();
             }
-        return $competition;
+        return $competency;
 
     }
 
     public function update(array $input, $id)
     {
 
-        $competition = parent::update($input, $id);
+        $competency = parent::update($input, $id);
 
-        if (isset($input['behaviours']))
-            foreach ($input['behaviours'] as $key => $value) {
-                $behaviour = Behaviour::firstOrNew(['id' => $key]);
-                $behaviour->competition_id = $competition->id;
-                $behaviour->description = $value;
-                $behaviour->save();
+        if (isset($input['items']))
+            foreach ($input['items'] as $key => $value) {
+                $item = CompetencyItem::firstOrNew(['id' => $key]);
+                $item->competency_id = $competency->id;
+                $item->positive = $value['positivo'];
+                $item->negative = $value['negativo'];
+                $item->save();
             }
 
         $deleteInput = explode(',',$input['remove-item-list']);
         foreach ($deleteInput as $value) {
             if ($value)
-                Behaviour::where('id',$value)->delete();
+                CompetencyItem::where('id',$value)->delete();
         }
 
-        return $competition;
+        return $competency;
     }
 }

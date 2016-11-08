@@ -23,37 +23,7 @@ class AdminBaseRepository extends BaseRepository
         return Document::class;
     }
 
-    public function saveNewPost(array $input)
-    {
-        if (!empty($input['new_post'])) :
 
-            $post = new Post();
-            $post->name = [Auth::user()->language_id => $input['new_post']];
-            $post->save();
-            return $post->id;
-
-        else:
-            return false;
-        endif;
-    }
-
-    public function create(array $input)
-    {
-        if ($new_post_id = $this->saveNewPost($input))
-            $input['post_id'] = $new_post_id;
-
-        return parent::create($input);
-    }
-
-
-    public function update(array $input, $id)
-    {
-        if ($new_post_id = $this->saveNewPost($input))
-            $input['post_id'] = $new_post_id;
-
-        return parent::update($input, $id);
-
-    }
     public function unicodeEscape($word)
     {
         $word = str_replace('á','\u00e1', $word);
@@ -71,17 +41,6 @@ class AdminBaseRepository extends BaseRepository
         return $word;
     }
 
-
-    public function saveArrayField($array_field,$index, $value)
-    {
-        if ($array_field)
-            $array_field[$index] = $value;
-        else
-            $array_field = [$index => $value];
-
-        return $array_field;
-
-    }
 
 
 

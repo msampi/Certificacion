@@ -18,7 +18,8 @@ class Client extends BaseModel
     public $fillable = [
         'name',
         'logo',
-        'description'
+        'description',
+        'color'
     ];
 
     /**
@@ -29,7 +30,8 @@ class Client extends BaseModel
     protected $casts = [
         'name' => 'string',
         'logo' => 'string',
-        'description' => 'string'
+        'description' => 'string',
+        'color' => 'string'
     ];
 
     /**

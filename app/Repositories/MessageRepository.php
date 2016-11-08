@@ -23,12 +23,5 @@ class MessageRepository extends BaseRepository
         return Message::class;
     }
 
-    public function getRoleUserMessages($superadmin)
-    {
-      if ($superadmin)
-        return $this->model->listCurrentLang('id', 'subject');
-      else
-        return $this->model->listCurrentClientLang('id', 'subject');
-
-    }
+    
 }

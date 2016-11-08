@@ -104,6 +104,10 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'consultant_pdf' => 'PDF Consultor',
+        'competitor_pdf' => 'PDF Participante',
+        'name' => 'Nombre',
+    ],
 
 ];
