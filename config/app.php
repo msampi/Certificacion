@@ -149,7 +149,10 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Collective\Bus\BusServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-
+    
+        Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
+        Unisharp\Ckeditor\ServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -217,6 +220,7 @@ return [
         'Flash'     => Laracasts\Flash\Flash::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
+        'Image' => Intervention\Image\Facades\Image::class,
     ],
 
 ];

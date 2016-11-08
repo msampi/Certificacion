@@ -13,7 +13,9 @@
         "infyomlabs/swagger-generator": "dev-master",
         "jlapp/swaggervel": "dev-master",
         "maatwebsite/excel": "~2.1.0",
-        "laravelcollective/bus": "^5.2"
+        "laravelcollective/bus": "^5.2",
+        "unisharp/laravel-filemanager": "^1.6",
+        "unisharp/laravel-ckeditor": "^4.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
