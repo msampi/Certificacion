@@ -1,9 +1,9 @@
 @extends('layouts.admin')
 
 @section('content')
-    <section class="content-header">
+ <section class="content-header">
         <h1>
-            Nuevo Ejercicio
+           Nuevo Cuestionario
         </h1>
     </section>
     <div class="content">
@@ -12,9 +12,9 @@
 
             <div class="box-body">
                 <div class="row">
-                    {!! Form::open(['route' => 'exercises.store', 'files' => true]) !!}
+                    {!! Form::open(['route' => 'questionaries.store']) !!}
 
-                        @include('admin.exercises.fields')
+                              @include('admin.questionaries.fields')
 
                     {!! Form::close() !!}
                 </div>

@@ -159,6 +159,12 @@
               </a>
             </li>
             <li>
+              <a href="{!! URL::asset( 'questionaries' ) !!}">
+                <i class="ion ion-ios-email"></i> <span>Cuestionarios</span>
+                <small class="label pull-right bg-orange">2</small>
+              </a>
+            </li>
+            <li>
               <a href="{!! URL::asset( 'messages' ) !!}">
                 <i class="ion ion-ios-email"></i> <span>Mensajes</span>
                 <small class="label pull-right bg-orange">2</small>

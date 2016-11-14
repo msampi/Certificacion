@@ -24,6 +24,7 @@ class AdminController extends AppBaseController
     
     public function uploadFile($request, $field_name)
     {
+        
         $imageName = NULL;
         if ($request->file($field_name)) :
             $imageName = $this->random(50).'.'.$request->file($field_name)->getClientOriginalExtension();

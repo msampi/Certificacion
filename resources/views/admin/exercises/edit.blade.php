@@ -11,7 +11,7 @@
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($exercise, ['route' => ['exercises.update', $exercise->id], 'method' => 'patch']) !!}
+                   {!! Form::model($exercise, ['route' => ['exercises.update', $exercise->id], 'method' => 'patch', 'files' => true]) !!}
 
                         @include('admin.exercises.fields')
 

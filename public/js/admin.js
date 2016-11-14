@@ -18,6 +18,9 @@ function readURL(input) {
 function addItemToRemove(id) {
     $("#remove-item-list").val($("#remove-item-list").val()+','+id);
 }
+function addOptionToRemove(id) {
+    $("#remove-option-list").val($("#remove-option-list").val()+','+id);
+}
 
 function removeManyListItem(elem, id) {
 
@@ -28,7 +31,6 @@ function removeManyListItem(elem, id) {
                                             '</div>');
 
 }
-
 
 
 function getInputType(type)
@@ -46,9 +48,31 @@ function getInputType(type)
         input +='<div class="col-md-8"><label>Nombre</label><input type="text" name="items['+itemCounter+'][name]" class="form-control"></div>';
               
     }
+    if (type == 'questionary'){
+        var input = '<div class="col-md-8"><label>Pregunta</label><input type="text"           name="question['+itemCounter+'][question]" class="form-control"></div>';
+    
+        input +='<div class="col-md-2"><label style="display:block">&nbsp;</label><a class="btn btn-primary btn-full" onclick="addSubItem(this,'+itemCounter+')">Agregar opción</a></div>';
+              
+    }
     itemCounter--;
     return input;
     
+}
+
+function addSubItem(elem, number){
+    
+        $(elem).parent().parent().append('<div class="row">'+
+                               '<div class="col-md-8 col-md-offset-1">'+
+                                    '<label>Opción</label>'+
+                                    '<input type="text" name="question['+number+'][option]['+itemCounter+']" class="form-control">'+
+                                '</div>'+
+                                '<div class="col-md-2"><label style="display:block">&nbsp;</label>'+
+                                    '<a class="btn btn-danger btn-full" onclick="removeManyListItem(this);"><i class="glyphicon glyphicon-trash"></i> Eliminar</a>'+
+                                '</div></div>');
+    
+        itemCounter--;
+        
+
 }
 
 $(function () {
@@ -100,11 +124,13 @@ $(function () {
         $(".item-list .panel-body").append('<div class="row">'+
                                     inputs+
                                 '<div class="col-md-2"><label style="display:block">&nbsp;</label>'+
-                                    '<a class="btn btn-danger" onclick="removeManyListItem(this);"><i class="glyphicon glyphicon-trash"></i> Eliminar</a>'+
+                                    '<a class="btn btn-danger btn-full" onclick="removeManyListItem(this);"><i class="glyphicon glyphicon-trash"></i> Eliminar</a>'+
                                 '</div></div>');
         
 
     });
+    
+    
     
     $("#exercise-list-button").click(function(){
         $('#exercise-list').append('<li>'+
@@ -129,6 +155,18 @@ $(function () {
         '</li>')
         $(".datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
         $(".hourmask").inputmask("hh:mm", {"placeholder": "hh:mm"});
+        exerciseCounter++;
+    });
+    
+    $("#competency-list-button").click(function(){
+        $('#competency-list').append('<li>'+
+            '<div class="alert alert-success alert-dismissible handle">'+
+                '<input type="hidden" name="exercise['+exerciseCounter+'][id]" value="-1">'+
+                '<input type="hidden" name="exercise['+exerciseCounter+'][exercise_id]" value="'+$('#competency-list-select').val()+'">'+
+                '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'+
+                '<h4><i class="icon fa fa-check"></i> '+$('#competency-list-select option:selected').text()+'</h4>'+
+            '</div>'+
+        '</li>')
         exerciseCounter++;
     });
     

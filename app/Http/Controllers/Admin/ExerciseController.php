@@ -13,6 +13,7 @@ use App\Models\ExerciseType;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use App\Models\Client;
+use App\Models\Competency;
 
 class ExerciseController extends AdminController
 {
@@ -48,7 +49,8 @@ class ExerciseController extends AdminController
     {
         return view('admin.exercises.create')
             ->with('exercise_types', ExerciseType::lists('name','id'))
-            ->with('clients', Client::lists('name','id')->prepend('Todos',NULL));     
+            ->with('clients', Client::lists('name','id')->prepend('Todos',NULL))
+            ->with('competencies', Competency::lists('name','id')); 
     }
 
     /**
@@ -93,7 +95,8 @@ class ExerciseController extends AdminController
 
         return view('admin.exercises.edit')->with('exercise', $exercise)
                                           ->with('exercise_types', ExerciseType::lists('name','id'))
-                                          ->with('clients', Client::lists('name','id')->prepend('Todos',NULL));
+                                          ->with('clients', Client::lists('name','id')->prepend('Todos',NULL))
+                                    ->with('competencies', Competency::lists('name','id'));
     }
 
     /**
@@ -110,8 +113,8 @@ class ExerciseController extends AdminController
         
         $input = $request->all();
         
-        $input['pdf_consultant'] = $this->uploadFile($request, 'pdf_consultant');
-        $input['pdf_competitor'] = $this->uploadFile($request, 'pdf_competitor');
+        $input['consultant_pdf'] = $this->uploadFile($request, 'consultant_pdf');
+        $input['competitor_pdf'] = $this->uploadFile($request, 'competitor_pdf');
 
         if (empty($exercise)) {
             Flash::error('Ejercicio no encontrado.');

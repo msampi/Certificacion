@@ -51,4 +51,9 @@ class Exercise extends Model
     {
         return $this->belongsTo('App\Models\ExerciseType','exercise_type_id');
     }
+    
+    public function competencies()
+    {
+        return $this->hasMany('App\Models\ExerciseCompetency');
+    }
 }

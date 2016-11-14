@@ -10,6 +10,7 @@ Route::group(['middleware' => 'admin', 'namespace' => 'Admin', 'prefix' => ''], 
 	Route::resource('competencies', 'CompetencyController');
     Route::resource('ratings', 'RatingController');
     Route::resource('exercises', 'ExerciseController');
+    Route::resource('questionaries', 'QuestionaryController');
     Route::resource('messages', 'MessageController');
 
 });
