@@ -71,6 +71,20 @@ class Evaluation extends BaseModel
         return $this->hasMany('App\Models\EvaluationExercise')->orderBy('number');
         
     }
+    
+    public function documents()
+    {
+        return $this->hasMany('App\Models\Document')->orderBy('name');
+        
+    }
+    
+    public function hasEcaseExercise()
+    {
+        foreach ($this->exercises as $exercise)
+            if ($exercise->exercise_type_id == 5)
+                return $exercise;
+        return false;
+    }
 
    
 

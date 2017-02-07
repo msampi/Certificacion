@@ -23,6 +23,7 @@ class EvaluationExercise extends BaseModel
         'number',
         'date_from',
         'date_to',
+        'status'
     ];
 
     /**
@@ -33,7 +34,8 @@ class EvaluationExercise extends BaseModel
     protected $casts = [
         'evaluation_id' => 'integer',
         'exercise_id' => 'integer',
-        'number' => 'integer'
+        'number' => 'integer',
+        'status' => 'integer'
         
     ];
     
@@ -42,6 +44,7 @@ class EvaluationExercise extends BaseModel
         return $this->belongsTo('App\Models\Exercise');
         
     }
+    
     
     
 

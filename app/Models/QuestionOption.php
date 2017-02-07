@@ -17,6 +17,8 @@ class QuestionOption extends Model
 
     public $fillable = [
         'option',
+        'question_id',
+        'correct'
         
     ];
 
@@ -27,6 +29,7 @@ class QuestionOption extends Model
      */
     protected $casts = [
         'option' => 'string'
+        
     ];
 
     /**

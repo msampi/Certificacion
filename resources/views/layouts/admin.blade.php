@@ -78,19 +78,16 @@
                     <p>
                     @if (Auth::user())
                       {{ Auth::user()->name }} {{ Auth::user()->last_name }}
-                      <small>Member since Nov. 2012</small>
+                      
                     </p>
                     @endif
                   </li>
 
                   <!-- Menu Footer-->
                   <li class="user-footer">
-                    <div class="pull-left">
-                      <a href="#" class="btn btn-default btn-flat">Profile</a>
-                    </div>
-                    <div class="pull-right">
-                      <a href="{{ url('/logout') }}" class="btn btn-default btn-flat">Sign out</a>
-                    </div>
+                    
+                      <a href="{{ url('/logout') }}" class="btn btn-default btn-flat">Salir</a>
+                    
                   </li>
                 </ul>
               </li>
@@ -122,8 +119,8 @@
           <ul class="sidebar-menu">
             <li class="header">NAVEGACIÓN PRINCIPAL</li>
             <li>
-              <a href="{!! URL::asset( 'admin' ) !!}">
-                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+              <a href="{!! URL::asset( '/' ) !!}">
+                <i class="fa fa-database"></i> <span>Importación</span>
               </a>
             </li>
 
@@ -143,7 +140,7 @@
             <li>
                 <a href="{!! URL::asset( 'competencies' ) !!}">
                   <i class="ion ion-stats-bars"></i>Competencias
-                  <small class="label pull-right bg-blue">{{ $ratingCount }}</small>
+                  <small class="label pull-right bg-blue">{{ $competencyCount }}</small>
                 </a>
             </li>
             <li>
@@ -154,20 +151,29 @@
             </li>
             <li>
               <a href="{!! URL::asset( 'exercises' ) !!}">
-                <i class="ion ion-ios-paper"></i> <span>Ejercicios</span>
-                <small class="label pull-right bg-blue">{{ $evaluationCount }}</small>
+                <i class="ion ion-compose"></i> <span>Ejercicios</span>
+                <small class="label pull-right bg-blue">{{ $exerciseCount }}</small>
               </a>
             </li>
-            <li>
-              <a href="{!! URL::asset( 'questionaries' ) !!}">
-                <i class="ion ion-ios-email"></i> <span>Cuestionarios</span>
-                <small class="label pull-right bg-orange">2</small>
+            <li class="treeview active">
+              <a href="#">
+                <i class="ion ion-clipboard"></i> <span>Cuestionarios</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
+              <ul class="treeview-menu menu-open" style="display: block;">
+                <li class="">
+                      <a href="{!! URL::asset( 'questionaries' ) !!}">
+                        <i class="ion ion-ios-lightbulb-outline"></i> <span>Conocimientos</span>
+                        
+                      </a>
+                </li>
+                <li><a href="{!! URL::asset( 'autoperceptions' ) !!}"><i class="ion ion-person-add"></i> Autopercepción</a></li>
+              </ul>
             </li>
+            
             <li>
               <a href="{!! URL::asset( 'messages' ) !!}">
                 <i class="ion ion-ios-email"></i> <span>Mensajes</span>
-                <small class="label pull-right bg-orange">2</small>
+                <small class="label pull-right bg-orange">{{ $messageCount }}</small>
               </a>
             </li>
 

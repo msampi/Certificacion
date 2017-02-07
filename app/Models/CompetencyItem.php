@@ -14,8 +14,8 @@ class CompetencyItem extends BaseModel
     public $fillable = [
         'positive',
         'negative',
-        'competition_id',
-        'import_id'
+        'competency_id',
+        
     ];
 
     /**
@@ -24,8 +24,7 @@ class CompetencyItem extends BaseModel
      * @var array
      */
     protected $casts = [
-        'competition_id' => 'integer',
-        'import_id' => 'integer'
+        'competency_id' => 'integer'
     ];
 
     /**

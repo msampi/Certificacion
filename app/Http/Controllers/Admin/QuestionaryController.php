@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Http\Requests\CreateQuestionaryRequest;
 use App\Http\Requests\UpdateQuestionaryRequest;
 use App\Repositories\QuestionaryRepository;
+use App\Models\Client;
 use App\Http\Controllers\AppBaseController as InfyOmBaseController;
 use Illuminate\Http\Request;
 use App\Models\QuestionaryType;
@@ -45,7 +46,8 @@ class QuestionaryController extends InfyOmBaseController
      */
     public function create()
     {
-        return view('admin.questionaries.create')->with('types', QuestionaryType::lists('name','id'));
+        return view('admin.questionaries.create')->with('types', QuestionaryType::lists('name','id'))
+                                                ->with('clients',Client::lists('name','id')->prepend('Todos',0));
     }
 
     /**
@@ -85,7 +87,8 @@ class QuestionaryController extends InfyOmBaseController
         }
 
         return view('admin.questionaries.edit')->with('questionary', $questionary)
-                                                ->with('types', QuestionaryType::lists('name','id'));
+                                                ->with('types', QuestionaryType::lists('name','id'))
+                                                ->with('clients',Client::lists('name','id')->prepend('Todos',0));
     }
 
     /**

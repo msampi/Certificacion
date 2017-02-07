@@ -151,7 +151,7 @@ class UserController extends AdminController
 
         $input = $request->all();
 
-        if ($image = $this->uploadImage($request, 'image'))
+        if ($image = $this->uploadFile($request, 'image'))
             $input['image'] = $image;
 
         $user = $this->userRepository->update($input, $id);

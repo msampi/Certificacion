@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use App\Models\CompetencyGroup;
+use App\Models\Client;
 
 class CompetencyController extends AdminController
 {
@@ -48,7 +50,9 @@ class CompetencyController extends AdminController
     public function create(Request $request)
     {
         
-        return view('admin.competencies.create');
+        return view('admin.competencies.create')
+                            ->with('competency_groups',CompetencyGroup::lists('name','id'))
+                            ->with('clients',Client::lists('name','id')->prepend('Todos','NULL'));
     }
 
     /**
@@ -87,7 +91,14 @@ class CompetencyController extends AdminController
             return redirect()->route('admin.competencies.index', 'search='.$competency->evaluation_id);
         }
 
-        return view('admin.competencies.edit')->with('competency', $competency);
+        return view('admin.competencies.edit')->with('competency', $competency)
+                                    ->with('competency_groups',CompetencyGroup::lists('name','id'))
+                                    ->with('clients',Client::lists('name','id')->prepend('Todos','NULL'));
+    }
+    
+    public function getClientGroups(Request $request)
+    {
+        return CompetencyGroup::where('client_id', $request->get('client_id'))->get()->toJson();
     }
 
     /**

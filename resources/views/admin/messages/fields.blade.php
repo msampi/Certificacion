@@ -22,7 +22,7 @@
 <div class="form-group col-sm-12">
     
     {!! Form::label('message', 'Mensaje:') !!}	
-    {!! Form::textarea('message', null, ['class' => 'form-control']) !!}
+    {!! Form::textarea('message', null, ['class' => 'form-control textarea']) !!}
     
 </div>
 

@@ -1,0 +1,8 @@
+{
+    "jscodehints.detectedExclusions": [
+        "/Users/matiassampietro/htdocs/certificacion/public/plugins/ckeditor/lang/hu.js",
+        "/Users/matiassampietro/htdocs/certificacion/public/plugins/ckeditor/lang/he.js",
+        "/Users/matiassampietro/htdocs/certificacion/public/js/admin.js",
+        "/Users/matiassampietro/htdocs/certificacion/public/plugins/ckeditor/lang/is.js"
+    ]
+}

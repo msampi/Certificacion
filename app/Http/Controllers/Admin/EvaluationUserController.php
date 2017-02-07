@@ -105,12 +105,14 @@ class EvaluationUserController extends AdminController
      */
     public function edit($id)
     {
-        $evaluation = $this->evaluationUserRepository->findWithoutFail($id);
-        
+        $evaluationUser = $this->evaluationUserRepository->findWithoutFail($id);
+        $evaluation = $evaluationUser->evaluation;
         $consultants = User::where('role_id',4)->where('client_id',$evaluation->client_id)
                                                ->lists('email','id');  
         $competitors = User::where('role_id',3)->where('client_id',$evaluation->client_id)
                                                ->lists('email','id');  
+        
+        
         if (empty($evaluation)) {
             Flash::error($this->dictionary->translate('Evaluación no encontrada'));
 
@@ -118,6 +120,7 @@ class EvaluationUserController extends AdminController
         }
 
         return view('admin.evaluationUser.edit')->with('evaluation', $evaluation)
+                                                ->with('evaluationUser', $evaluationUser)
                                                           ->with('competitors', $competitors)
                                                           ->with('consultants', $consultants);
     }
@@ -133,30 +136,25 @@ class EvaluationUserController extends AdminController
 
 
 
-    public function update($id, UpdateEvaluationUserEvaluatorRequest $request)
+    public function update($id, UpdateEvaluationUserRequest $request)
     {
-        $evaluation = $this->evaluationUserEvaluatorRepository->findWithoutFail($id);
+        $evaluation = $this->evaluationUserRepository->findWithoutFail($id);
 
         if (empty($evaluation)) {
 
-            Flash::error($this->dictionary->translate('Evaluación no encontrada'));
-            return redirect(route('admin.evaluationUserEvaluators.index','search='.$evaluation->evaluation_id));
+            Flash::error('Evaluación no encontrada');
+            return redirect(route('evaluationUser.index','search='.$evaluation->evaluation_id));
 
         }
 
-        if ($request->get('user_id') == $request->get('evaluator_id') ) {
-
-            return redirect(route('admin.evaluationUserEvaluators.edit', [$evaluation->id]))->withErrors([$this->dictionary->translate('Un usuario no puede ser evaluado por si mismo')]);
-
-        }
 
         $input = $request->all();
-        //$evaluation = $this->evaluationUserEvaluatorRepository->updateOrCreate(['evaluation_id' => $input['evaluation_id'], 'evaluator_id' => $input['evaluator_id'], 'user_id' => $input['user_id'] ], $input);
-        $evaluation = $this->evaluationUserEvaluatorRepository->update($input,$id);
+        
+        $evaluation = $this->evaluationUserRepository->update($input,$id);
 
-        Flash::success($this->dictionary->translate('Evaluación actualizada correctamente'));
+        Flash::success('Evaluación actualizada correctamente');
 
-        return redirect(route('admin.evaluationUserEvaluators.index','search='.$evaluation->evaluation_id));
+        return redirect(route('evaluationUser.index','search='.$evaluation->evaluation_id));
     }
 
     /**

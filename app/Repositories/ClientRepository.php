@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Models\Client;
 use InfyOm\Generator\Common\BaseRepository;
 
-class ClientRepository extends BaseRepository
+class ClientRepository extends AdminBaseRepository
 {
     /**
      * @var array
@@ -22,14 +22,6 @@ class ClientRepository extends BaseRepository
         return Client::class;
     }
 
-    /**
-     * Gets the client count.
-     *
-     * @return     <type>  The client count.
-     */
-    public function getClientCount() {
-        return $this->all()->count();
-    }    
 
     public function getClients() {
         return Client::doesntHave('Posts')->lists('name','id');

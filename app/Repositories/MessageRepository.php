@@ -6,7 +6,7 @@ use App\Models\Message;
 use InfyOm\Generator\Common\BaseRepository;
 use Auth;
 
-class MessageRepository extends BaseRepository
+class MessageRepository extends AdminBaseRepository
 {
     /**
      * @var array

@@ -17,7 +17,10 @@ class Questionary extends Model
 
     public $fillable = [
         'name',
-        'type'
+        'instructions',
+        'reference',
+        'import_id',
+        'client_id'
     ];
 
     /**
@@ -27,7 +30,9 @@ class Questionary extends Model
      */
     protected $casts = [
         'name' => 'string',
-        'type' => 'boolean'
+        'import_id' => 'integer',
+        'reference' => 'text',
+        'client_id' => 'integer'
     ];
 
     /**
@@ -42,5 +47,10 @@ class Questionary extends Model
     public function questions()
     {
         return $this->hasMany('App\Models\Question');
+    }
+    
+    public function client()
+    {
+        return $this->belongsTo('App\Models\Client');
     }
 }

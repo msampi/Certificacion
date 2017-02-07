@@ -12,10 +12,12 @@ class Competency extends BaseModel
 {
 
     public $fillable = [
+        'import_id',
         'name',
-        'post_id',
-        'evaluation_id',
         'description',
+        'reference',
+        'client_id',
+        'competency_group_id'
     ];
 
     /**
@@ -24,8 +26,11 @@ class Competency extends BaseModel
      * @var array
      */
     protected $casts = [
-        'name' => 'array',
-        'description' => 'array',
+        'import_id' => 'integer',
+        'name' => 'string',
+        'reference' => 'text',
+        'description' => 'string',
+        'client_id' => 'integer'
     ];
 
     /**
@@ -40,6 +45,11 @@ class Competency extends BaseModel
     public function items()
     {
         return $this->hasMany('App\Models\CompetencyItem');
+    }
+    
+    public function client()
+    {
+        return $this->belongsTo('App\Models\Client');
     }
 
     

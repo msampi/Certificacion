@@ -109,7 +109,7 @@ class ClientController extends AdminController
 
         $input = $request->all();
 
-        if ($image = $this->uploadImage($request, 'logo'))
+        if ($image = $this->uploadFile($request, 'logo'))
             $input['logo'] = $image;
 
         $client = $this->clientRepository->update($input, $id);

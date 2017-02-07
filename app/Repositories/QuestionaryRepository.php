@@ -24,6 +24,37 @@ class QuestionaryRepository extends BaseRepository
         return Questionary::class;
     }
     
+    public function getCorrectOrNot($value){
+        
+        if (strtolower($value) == 'si')
+            return 1;
+        return 0;
+                    
+    }
+    
+    public function saveFromExcel($row, $client_id)
+    {
+
+        $questionary = $this->model->firstOrNew(['import_id' => $row->id_conocimiento, 'client_id' => $client_id]);
+        $questionary->name = $row->nombre;
+        $questionary->instructions = $row->instrucciones;
+        $questionary->reference = $row->referencia;
+        $questionary->save();
+    
+        $question = Question::firstOrCreate(['questionary_id' => $questionary->id, 
+                                             'question' => $row->pregunta]);
+        
+        if ($row->opcion){
+            $questionOption = QuestionOption::firstOrNew(['question_id' => $question->id, 
+                                             'option' => $row->opcion]);
+            $questionOption->correct = $this->getCorrectOrNot($row->correcta);
+            $questionOption->save();
+        }
+        
+        return $questionary;
+
+    }
+    
     
     public function create(array $input)
     {
@@ -40,8 +71,10 @@ class QuestionaryRepository extends BaseRepository
                     foreach($question['option'] as $key => $option) :
 
                         $qo = QuestionOption::firstOrNew(['id' => $key]);
-                        $qo->option = $option;
+                        $qo->option = $option['option'];
                         $qo->question_id = $q->id;
+                        if (isset($option['correct']))
+                            $qo->correct = 1;
                         $qo->save();
 
                     endforeach;
@@ -65,10 +98,12 @@ class QuestionaryRepository extends BaseRepository
                 $q->save();
                 if (isset($question['option'])) 
                 foreach($question['option'] as $key => $option) :
-                
+                   
                     $qo = QuestionOption::firstOrNew(['id' => $key]);
-                    $qo->option = $option;
+                    $qo->option = $option['option'];
                     $qo->question_id = $q->id;
+                    if (isset($option['correct']))
+                        $qo->correct = 1;
                     $qo->save();
                 
                 endforeach;

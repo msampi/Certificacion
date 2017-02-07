@@ -13,7 +13,7 @@ class ExerciseCompetency extends BaseModel
 
     public $fillable = [
         'exercise_id',
-        'competency_id',
+        'competency_group_id',
         'number'
     ];
 
@@ -24,7 +24,7 @@ class ExerciseCompetency extends BaseModel
      */
     protected $casts = [
         'exercise_id' => 'integer',
-        'competency_id' => 'integer',
+        'competency_group_id' => 'integer',
         'number'
     ];
 

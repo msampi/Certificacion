@@ -18,7 +18,7 @@ class EvaluationUser extends BaseModel
         'primary_consultant_id',
         'secondary_consultant_id',
         'competitor_id',
-        'status',
+        'status'
         
     ];
 

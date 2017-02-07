@@ -9,6 +9,7 @@ use App\Http\Requests\CreateEvaluationRequest;
 use App\Http\Requests\UpdateEvaluationRequest;
 use App\Repositories\UserRepository;
 use App\Repositories\CompetencyRepository;
+use App\Repositories\DocumentRepository;
 use App\Repositories\MessageRepository;
 use App\Repositories\EvaluationRepository;
 use App\Repositories\EvaluationUserRepository;
@@ -31,11 +32,13 @@ class EvaluationController extends AdminController
     private $competencyRepository;
     private $evaluationUserRepository;
     private $evaluationRepository;
+    private $documentRepository;
 
     public function __construct(UserRepository $userRepo,
                                 EvaluationRepository $evaluationRepo,
                                 EvaluationUserRepository $evaluationUserRepo,
-                                CompetencyRepository $competencyRepo)
+                                CompetencyRepository $competencyRepo,
+                                DocumentRepository $documentRepo)
     {
         //parent::__construct();
 
@@ -43,6 +46,7 @@ class EvaluationController extends AdminController
         $this->evaluationUserRepository = $evaluationUserRepo;
         $this->evaluationRepository = $evaluationRepo;
         $this->competencyRepository = $competencyRepo;
+        $this->documentRepository = $documentRepo;
         
     }
 
@@ -93,28 +97,20 @@ class EvaluationController extends AdminController
 
         $evaluation = $this->evaluationRepository->create($input);
 
-        //$upload_status = $this->uploadFiles($request->file('docs'), $evaluation->id);
-
-        /*$excel = new ExcelImport($this->userRepository,
-                                 $this->evaluationUserEvaluatorRepository,
-                                 $this->competitionRepository,
-                                 $this->behaviourRepository,
-                                 $this->valorationRepository,
-                                 $this->objectiveRepository,
-                                 $this->postRepository,
-                                 $this->planRepository,
-                                 $this->actionRepository);
+        $excel = new ExcelImport($this->userRepository,
+                                 $this->evaluationUserRepository);
 
 
 
         $excel->setClientId($evaluation->client_id);
-        $excel->setLanguage($request->get('import_lang'));
         $excel->setEvaluationId($evaluation->id);
         $excel->importUsers($request->file('users_excel'));
-        $excel->importEvaluation($request->file('evaluation_excel'));*/
+        
+        $upload_status = $this->uploadFiles($request->file('docs'), $evaluation->id);
+        
 
-        /*if (isset($input['start']))
-          $this->evaluationUserEvaluatorRepository->startEvaluation($evaluation);
+         if ($request->get('start'))
+          $this->evaluationUserRepository->startEvaluation($evaluation);
 
         if ($upload_status == 2) {
 
@@ -130,18 +126,24 @@ class EvaluationController extends AdminController
             return redirect(route('admin.evaluations.edit', [$evaluation->id]));
 
         }
+
 
         if ($excel->hasErrors()){
             Flash::error('Problemas encontrados en archivos de importacion:<br>'.$excel->getErrors());
             return redirect(route('admin.evaluations.edit', [$evaluation->id]));
         }
         else
-        {*/
+        {
             Flash::success('Evaluacion creada correctamente.');
             return redirect(route('evaluations.index'));
-        //}
+        }
 
 
+    }
+    
+    public function getExercises(Request $request)
+    {
+         return Exercise::where('client_id', $request->get('client_id'))->orWhere('client_id', 0)->get()->toJson();
     }
 
 
@@ -223,22 +225,18 @@ class EvaluationController extends AdminController
 
         //$upload_status = $this->uploadFiles($request->file('docs'), $evaluation->id);
 
-        /*$excel = new ExcelImport( $this->userRepository,
-                                 $this->evaluationUserEvaluatorRepository,
-                                 $this->competitionRepository,
-                                 $this->behaviourRepository,
-                                 $this->valorationRepository,
-                                 $this->objectiveRepository,
-                                 $this->postRepository,
-                                 $this->planRepository,
-                                 $this->actionRepository);
-
+        $excel = new ExcelImport( $this->userRepository,
+                                 $this->evaluationUserRepository);
+        
         $excel->setClientId($evaluation->client_id);
-        $excel->setLanguage($request->get('import_lang'));
         $excel->setEvaluationId($evaluation->id);
         $excel->importUsers($request->file('users_excel'));
-        $excel->importEvaluation($request->file('evaluation_excel'));
-
+        
+        $upload_status = $this->uploadFiles($request->file('docs'), $evaluation->id);
+        
+        if ($request->get('start'))
+          $this->evaluationUserRepository->startEvaluation($evaluation);
+           
         if ($upload_status == 2) {
 
             Flash::error('Uno o varios archivos que desea importar ya existen en la base de datos. Por favor cambie el/los nombre/s e intente nuevamente');
@@ -246,25 +244,24 @@ class EvaluationController extends AdminController
 
         }
 
-        $request->replace($input);
+        if ($upload_status == 2) {
 
+            Flash::error('Uno o varios archivos que desea importar ya existen en la base de datos. Por favor cambie el/los nombre/s e intente nuevamente');
 
-        
-        if (isset($input['start']))
-          $this->evaluationUserEvaluatorRepository->startEvaluation($evaluation);
+            return redirect(route('admin.evaluations.edit', [$evaluation->id]));
 
-        
-        }*/
+        }
 
-       /* if ($excel->hasErrors()){
+    
+        if ($excel->hasErrors()){
             Flash::error('Problemas encontrados en archivos de importacion:<br>'.$excel->getErrors());
             return redirect(route('admin.evaluations.edit', [$evaluation->id]));
         }
         else
-        {*/
+        {
             Flash::success('Evaluacion actualizada correctamente');
             return redirect(route('evaluations.index'));
-        //}
+        }
 
 
     }

@@ -1,4 +1,5 @@
 <input type="hidden" name="remove-item-list" id="remove-item-list">
+<input type="hidden" name="remove-doc-list" id="remove-doc-list">
 <div class="col-sm-8">
 <!-- Name Field -->
 <div class="form-group col-sm-12">
@@ -7,7 +8,7 @@
 </div>
 <div class="form-group col-sm-12 ">
         {!! Form::label('client', 'Cliente:') !!}
-        {!! Form::select('client_id',  $clients, null,  ['class' => 'form-control']) !!}
+        {!! Form::select('client_id',  $clients, null,  ['class' => 'form-control', 'id' => 'evaluation-client-select']) !!}
     </div>
 
 <!-- Instructions Field -->
@@ -17,7 +18,7 @@
 </div>
 <div class="col-md-8">
     {!! Form::label('exercises', 'Ejercicios:') !!}
-    {!! Form::select('exercises',  $exercises, null,  ['class' => 'form-control', 'id' => 'exercise-list-select']) !!}
+    {!! Form::select('exercises',  [], null,  ['class' => 'form-control', 'id' => 'exercise-list-select']) !!}
 </div>
 <div class="col-md-4">
      {!! Form::label('null', '&nbsp;') !!}
@@ -55,6 +56,44 @@
     </ul>
    
 </div>
+<div class="col-md-12">
+    
+        <h3><a role="button" class="btn btn-success documents-list-button"><span class="glyphicon glyphicon-plus"></span> &nbsp;Agregar Documento</a></h3>
+    
+   
+        <div class="panel panel-default documents-list">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-file-o"></i> <strong>Documentos</strong></h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-10">
+                        <label>Nombre</label>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Acción</label>
+                    </div>
+                </div>
+                @if (empty($evaluation->documents))
+                    <div class="callout callout-info">
+                        <p>No hay documentos para esta evaluación'</p>
+                    </div>
+                @else
+                    @foreach ($evaluation->documents as $doc)
+                    <div class="row">
+                        <div class="col-md-10">
+                            <input type="text" readonly value="{!! $doc->name!!}" class="form-control">
+                        </div>
+                        <div class="col-md-2">
+                            <a class="btn btn-danger" onclick="removeManyListItem(this); addDocToRemove({!! $doc->id !!})"><i class="glyphicon glyphicon-trash"></i></a>
+                        </div>
+                    </div>
+                    @endforeach
+                @endif
+
+            </div>
+        </div>
+    </div>
 
 </div>
 <div class="col-sm-4">
@@ -65,8 +104,7 @@
         <hr>
         <h4>Excel Usuarios</h4>
         {!! Form::file('users_excel') !!}
-        <h4>Excel Evaluación</h4>
-        {!! Form::file('evaluation_excel') !!}
+       
         
     </div>
     <div class="col-md-12">
@@ -84,11 +122,8 @@
         {!! Form::label('bienvenida', 'Mensaje de bienvenida:') !!}
         {!! Form::select('welcome_message_id',  $messages, null,  ['class' => 'form-control']) !!}
     </div>
-    <div class="col-md-12">
-        {!! Form::label('recuperacion', 'Recuperación de clave:') !!}
-        {!! Form::select('recovery_message_id',  $messages, null,  ['class' => 'form-control']) !!}
-    </div>
     
+</div>
 
 </div>
 
@@ -98,7 +133,7 @@
 <div class="col-sm-12" style="margin-top:20px">
     <div class="col-md-12">
       <label style="font-size:16px">Lanzar evaluación</label>
-      {!! Form::checkbox('start',false); !!}    
+      {!! Form::checkbox('start',1, false); !!}    
     </div>
      <div class="col-md-12">
         {!! Form::submit('Guardar', ['class' => 'btn btn-primary']) !!}
@@ -107,8 +142,10 @@
 </div>
 <script type="text/javascript">
     $(function(){
-        
-
+        @if (isset($evaluation))
+        checkClearExercises({{ $evaluation->client_id}});
+        @endif
+        searchEvaluationExercises();
 
     })
 

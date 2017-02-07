@@ -3,7 +3,7 @@
 @section('content')
     <section class="content-header">
       <h1>
-        Sistema <b>SC</b>
+        <b>Assessment</b>
       </h1>
       <h4>
         Sistema de Certificaciones
@@ -14,43 +14,34 @@
       </ol>
     </section>
     <section class="content">
-    <div class="row">
-        <div class="col-lg-4 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-aqua">
-            <div class="inner">
-              <h3>{!! $userCount !!}</h3>
-
-              <p>Usuarios</p>
+        @include('flash::message')
+        <div class="box box-solid">
+            <div class="box-header with-border">
+              <h3 class="box-title"> <i class="fa fa-file-excel-o"></i> Importación de datos</h3>
             </div>
-            <div class="icon">
-              <i class="ion ion-person-add"></i>
+            <!-- /.box-header -->
+            <div class="box-body">
+                {!! Form::open(['url' => 'upload', 'files' => true]) !!}
+                <div class="col-md-6">
+                    
+                    <p>Seleccione el cliente a quien se le asignarán los datos</p>
+                    {!! Form::label('clients', 'Cliente:') !!}
+                    {!! Form::select('client_id',  $clients, null,  ['class' => 'form-control']) !!}
+                </div>
+                <div class="col-md-12 mt20">
+                    <p><strong>Desde aqui puede importar datos como competencias y cuestionarios en formato XLS/XLSX.</strong></p>
+                    {!! Form::file('data_excel') !!}
+                </div>
+                <div class="col-md-12 mt20">
+                    {!! Form::submit('Importar', ['class' => 'btn btn-primary']) !!}
+                </div>
+                {!! Form::close() !!}    
+            
             </div>
-            <a href="{!! URL::asset( 'admin/users' ) !!}" class="small-box-footer">
-              Ver <i class="fa fa-arrow-circle-right"></i>
-            </a>
-          </div>
+            <!-- /.box-body -->
         </div>
-        <!-- ./col -->
-        <!--<div class="col-lg-4 col-xs-6">
-
-          <div class="small-box bg-green">
-            <div class="inner">
-              <h3>{!! $clientCount !!}</h3>
-
-              <p>Clientes</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-ios-people"></i>
-            </div>
-            <a href="{!! URL::asset( 'admin/clients' ) !!}" class="small-box-footer">
-              Ver <i class="fa fa-arrow-circle-right"></i>
-            </a>
-          </div>
-        </div>-->
-
-
-      <!-- /.row -->
-      </section>
+        
+        
+    </section>
 
 @endsection

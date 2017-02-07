@@ -1,8 +1,21 @@
 <!-- Name Field -->
 
-<div class="form-group col-sm-12">
+<div class="form-group col-sm-8">
     {!! Form::label('name', 'Nombre:') !!}    
     {!! Form::text('name', null, ['class' => 'form-control']) !!}
+</div>
+<div class="col-md-4">
+    {!! Form::label('clients', 'Cliente:') !!}
+    {!! Form::select('client_id',  $clients, null,  ['class' => 'form-control', 'id' => 'client-competency-selector']) !!}
+</div>
+
+<div class="form-group col-sm-6">
+    {!! Form::label('name', 'Nuevo Grupo:') !!}    
+    {!! Form::text('new_group', null, ['class' => 'form-control new-group']) !!}
+</div>
+<div class="form-group col-sm-6">
+    {!! Form::label('competency_group_id', 'Grupo:') !!}    
+    {!! Form::select('competency_group_id',  $competency_groups, null,  ['class' => 'form-control group-list', 'id' => 'competency-group-selector']) !!}
 </div>
 
 <div class="form-group col-sm-12">
@@ -53,7 +66,16 @@
 	</div>
 </div>
 <div class="form-group col-sm-12">
+    {!! Form::label('reference', 'Referencia:') !!}    
+    {!! Form::textarea('reference', null, ['class' => 'form-control textarea']) !!}
+</div>
+<div class="form-group col-sm-12">
     {!! Form::submit('Guardar', ['class' => 'btn btn-primary']) !!}
     <a href="{!! route('competencies.index') !!}" class="btn btn-default">Cancelar</a>
 </div>
-
+<script type="text/javascript">
+    
+    $(function(){
+        searchCompetencyGroups();
+    })
+</script>

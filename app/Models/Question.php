@@ -17,6 +17,7 @@ class Question extends Model
 
     public $fillable = [
         'question',
+        'questionary_id'
         
     ];
 
@@ -26,7 +27,8 @@ class Question extends Model
      * @var array
      */
     protected $casts = [
-        'question' => 'string'
+        'question' => 'string',
+        'questionary_id' => 'integer'
     ];
 
     /**

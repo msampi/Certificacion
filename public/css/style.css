@@ -33,7 +33,7 @@ h1.pull-right.inside .btn{margin-top: -30px;margin-bottom: 5px; margin-left: 5px
 .select2-container .select2-selection--single{height: 34px !important}
 .empty-message div, .empty-message p{font-size:38px; color:#BBB; margin-top: 60px; text-align:center}
 .empty-message p{font-size: 18px; margin-top: 20px}
-#saving-label{margin-top:35px; font-size:14px; color:green; display:none;}
+#saving-label{font-size:14px; color:green; display:none;}
 .average-box{background-color: #00a65a; padding: 3px; overflow-y: auto; color: white; text-align: center; border-radius:0.25em}
 .average-box .header{font-size: 10px; border-bottom: 1px solid #eee}
 blockquote {
@@ -45,3 +45,34 @@ blockquote {
 .btn-full{width: 100%}
 .exercise-input, .exercise-input-hour{border: none; background-color: #008d4c; width: 85px; padding-left: 5px}
 .exercise-input-hour{width: 55px;padding-left: 8px}
+.rating-label{
+    
+/* Safari */
+-webkit-transform: rotate(-45deg);
+
+/* Firefox */
+-moz-transform: rotate(-45deg);
+
+/* IE */
+-ms-transform: rotate(-45deg);
+
+/* Opera */
+-o-transform: rotate(-45deg);
+
+/* Internet Explorer */
+filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);}
+
+
+
+
+/* Margins */
+
+.mt20{margin-top: 20px}
+.check-big{
+    width:20px; height:20px; 
+    vertical-align: middle
+}
+.vt-middle{vertical-align: middle}
+
+.logo-lg img{max-width: 180px; max-height: 40px; margin-top:-5px }
+.main-header{max-height: 150px}

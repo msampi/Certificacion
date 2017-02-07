@@ -9,7 +9,7 @@
     @foreach($evaluations as $evaluation)
         <tr>
             <td>{!! $evaluation->name !!}</td>
-            <td>{!! $evaluation->client->name!!}</td>
+            <td>{!! $evaluation->client->name or '' !!}</td>
             <td>{!! $evaluation->instructions !!}</td>
 
             <td>

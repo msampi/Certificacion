@@ -40,6 +40,11 @@ class AdminBaseRepository extends BaseRepository
         $word = str_replace('Ñ','\u00d1', $word);
         return $word;
     }
+    
+    public function countRecords() {
+        return $this->all()->count();
+    }    
+
 
 
 

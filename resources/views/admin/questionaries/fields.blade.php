@@ -2,16 +2,18 @@
 <!-- Name Field -->
 <input type="hidden" name="remove-item-list" id="remove-item-list">
 <input type="hidden" name="remove-option-list" id="remove-option-list">
-<div class="form-group col-sm-12">
+<div class="form-group col-sm-8">
     {!! Form::label('name', 'Nombre:') !!} 
     {!! Form::text('name', null, ['class' => 'form-control']) !!}
 </div>
-
-<!-- Type Field -->
-<!--<div class="form-group col-sm-12 col-lg-12">
-    {!! Form::label('type', 'Tipo de cuestionario:') !!}
-    {!! Form::select('type',  $types, null,  ['class' => 'form-control']) !!}
-</div>-->
+<div class="col-md-4">
+    {!! Form::label('clients', 'Cliente:') !!}
+    {!! Form::select('client_id',  $clients, null,  ['class' => 'form-control']) !!}
+</div>
+<div class="form-group col-sm-12">
+    {!! Form::label('instructions', 'Instrucciones:') !!}    
+    {!! Form::textarea('instructions', null, ['class' => 'form-control textarea']) !!}
+</div>
 <div class="form-group col-sm-12">
 	<a role="button" class="btn btn-success item-list-button" data-type="questionary"><span class="glyphicon glyphicon-plus"></span> &nbsp;Agregar Pregunta</a>
 </div>
@@ -40,9 +42,13 @@
 	                </div>
                     @foreach ($question->options as $option)
                            <div class="row">
-                                <div class="col-md-8 col-md-offset-1">
+                                <div class="col-md-1 col-md-offset-1" style="width:3%">
+                                    <label>&nbsp;</label>
+                                    <input type="checkbox" name="question[{!! $question->id !!}][option][{!! $option->id !!}][correct]" @if ($option->correct) checked @endif >
+                                </div>
+                                <div class="col-md-8">
                                     <label>Opción</label>
-                                    <input type="text" name="question[{!! $question->id !!}][option][{!! $option->id !!}]" class="form-control" value="{!! $option->option !!}">
+                                    <input type="text" name="question[{!! $question->id !!}][option][{!! $option->id !!}][option]" class="form-control" value="{!! $option->option !!}">
                                 </div>
                                 <div class="col-md-2"><label style="display:block">&nbsp;</label>
                                     <a class="btn btn-danger btn-full" onclick="removeManyListItem(this);addOptionToRemove({!! $option->id !!})"><i class="glyphicon glyphicon-trash"></i> Eliminar</a>
@@ -57,6 +63,10 @@
             
   		</div>
 	</div>
+</div>
+<div class="form-group col-sm-12">
+    {!! Form::label('reference', 'Referencia:') !!}    
+    {!! Form::textarea('reference', null, ['class' => 'form-control textarea']) !!}
 </div>
 
 <!-- Submit Field -->

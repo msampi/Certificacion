@@ -4,7 +4,6 @@
         <th>Participante email</th>
         <th>Consultor Primario</th>
         <th>Consultor Secundario</th>
-        <th>Status</th>
         <th width="10%">Acción</th>
     </thead>
     <tbody>
@@ -12,11 +11,9 @@
         <tr>
             <td>{!! $evaluation->competitor->name !!} {!! $evaluation->competitor->last_name !!}</td>
             <td>{!! $evaluation->competitor->email !!}</td>
-            <td>{!! $evaluation->primaryConsultant->name !!} {!! $evaluation->primaryConsultant->last_name !!}</td>
-            <td>{!! $evaluation->secondaryConsultant->name !!} {!! $evaluation->secondaryConsultant->last_name !!}</td>
-            <td>status</td>
+            <td> @if (isset($evaluation->primaryConsultant)) {!! $evaluation->primaryConsultant->name !!} {!! $evaluation->primaryConsultant->last_name !!} @endif</td>
+            <td>@if (isset($evaluation->secondaryConsultant)) {!!  $evaluation->secondaryConsultant->name !!} {!! $evaluation->secondaryConsultant->last_name  !!} @endif </td>
             
-
             <td>
                 {!! Form::open(['route' => ['evaluationUser.destroy', $evaluation->id], 'method' => 'delete']) !!}
                  <a href="{!! route('evaluationUser.edit', [$evaluation->id]) !!}" class='btn btn-default btn-sm' data-toggle="tooltip" data-placement="top" title="Editar / Administrar"><i class="glyphicon glyphicon-edit"></i></a>

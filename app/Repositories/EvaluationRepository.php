@@ -10,7 +10,7 @@ use Session;
 use Carbon\Carbon;
 use Auth;
 
-class EvaluationRepository extends BaseRepository
+class EvaluationRepository extends AdminBaseRepository
 {
     /**
      * @var array
@@ -28,14 +28,6 @@ class EvaluationRepository extends BaseRepository
     }
 
 
-    /**
-     * Gets the evaluation count.
-     *
-     * @return     <type>  The evaluation count.
-     */
-    public function getEvaluationCount() {
-        return $this->all()->count();
-    }
     
     
     public function create(array $input)
@@ -70,12 +62,14 @@ class EvaluationRepository extends BaseRepository
                 $e = EvaluationExercise::firstOrNew(['id' => $exercise['id']]);
                 $e->evaluation_id = $evaluation->id;
                 $e->exercise_id = $exercise['exercise_id'];
+                
+                
                 if ($exercise['from'] && $exercise['from_hour'])
-                    $e->date_from = Carbon::createFromFormat('d/m/Y H:i:s', $exercise['from'].' '.$exercise['from_hour'].':00')->toDateString();
+                    $e->date_from = Carbon::createFromFormat('d/m/Y H:i:s', $exercise['from'].'  '.$exercise['from_hour'].':00')->toDateTimeString();
                 if ($exercise['to'] && $exercise['to_hour'])
-                    $e->date_to = Carbon::createFromFormat('d/m/Y H:i:s', $exercise['to'].' '.$exercise['to_hour'].':00')->toDateString();
+                    $e->date_to = Carbon::createFromFormat('d/m/Y H:i:s', $exercise['to'].'  '.$exercise['to_hour'].':00')->toDateTimeString();
                 $e->number = $order;
-               
+                
                 $e->save();
                 $order++;
             }

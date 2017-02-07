@@ -13,7 +13,10 @@ use App\Models\ExerciseType;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use App\Models\Client;
-use App\Models\Competency;
+use App\Models\CompetencyGroup;
+use App\Models\Rating;
+use App\Models\Questionary;
+use App\Models\Autoperception;
 
 class ExerciseController extends AdminController
 {
@@ -50,7 +53,10 @@ class ExerciseController extends AdminController
         return view('admin.exercises.create')
             ->with('exercise_types', ExerciseType::lists('name','id'))
             ->with('clients', Client::lists('name','id')->prepend('Todos',NULL))
-            ->with('competencies', Competency::lists('name','id')); 
+            ->with('competencies', CompetencyGroup::lists('name','id'))
+            ->with('ratings', Rating::lists('name','id'))
+            ->with('questionaries', Questionary::lists('name','id'))
+            ->with('autoperceptions', Autoperception::lists('name','id')); 
     }
 
     /**
@@ -95,8 +101,12 @@ class ExerciseController extends AdminController
 
         return view('admin.exercises.edit')->with('exercise', $exercise)
                                           ->with('exercise_types', ExerciseType::lists('name','id'))
-                                          ->with('clients', Client::lists('name','id')->prepend('Todos',NULL))
-                                    ->with('competencies', Competency::lists('name','id'));
+                                          ->with('clients', Client::lists('name','id')
+                                          ->prepend('Todos',NULL))
+                                          ->with('competencies', CompetencyGroup::lists('name','id'))
+                                          ->with('ratings', Rating::lists('name','id'))
+                                          ->with('questionaries', Questionary::lists('name','id'))
+                                          ->with('autoperceptions', Autoperception::lists('name','id')); ;
     }
 
     /**

@@ -1,12 +1,16 @@
 <table class="table table-bordered search-table" id="questionaries-table">
     <thead>
+        <th width="2%">ID</th>
         <th>Nombre</th>
+        <th>Cliente</th>
         <th width="10%">Acción</th>
     </thead>
     <tbody>
     @foreach($questionaries as $questionary)
         <tr>
+            <td>@if ($questionary->import_id > 0) {!! $questionary->import_id !!} @else - @endif</td>
             <td>{!! $questionary->name !!}</td>
+            <td>@if ($questionary->client) {!! $questionary->client->name !!} @else Todos @endif</td>
             <td>
                 {!! Form::open(['route' => ['questionaries.destroy', $questionary->id], 'method' => 'delete']) !!}
                 

@@ -12,7 +12,7 @@
 
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($evaluation, ['route' => ['evaluationUser.update', $evaluation->id], 'method' => 'patch']) !!}
+                   {!! Form::model($evaluationUser, ['route' => ['evaluationUser.update', $evaluationUser->id], 'method' => 'patch']) !!}
 
                     @include('admin.evaluationUser.fields')
 
