@@ -53,4 +53,9 @@ class Questionary extends Model
     {
         return $this->belongsTo('App\Models\Client');
     }
+    
+    public function setClientIdAttribute($value)
+    {
+        $this->attributes['client_id'] = $value ?: null;
+    }
 }

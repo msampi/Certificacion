@@ -24,6 +24,7 @@ class Exercise extends Model
         'client_id',
         'rating_id',
         'external_link',
+        'simulation_id',
         'simulation_name'
     ];
 
@@ -40,6 +41,7 @@ class Exercise extends Model
         'rating_id' => 'integer',
         'client_id' => 'integer',
         'external_link' => 'string',
+        'simulation_id' => 'integer',
         'simulation_name' => 'string'
     ];
 
@@ -62,6 +64,11 @@ class Exercise extends Model
      public function rating()
     {
         return $this->belongsTo('App\Models\Rating');
+    }
+    
+    public function setClientIdAttribute($value)
+    {
+        $this->attributes['client_id'] = $value ?: null;
     }
     
     public function competencyGroups()

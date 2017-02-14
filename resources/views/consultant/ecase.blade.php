@@ -9,7 +9,6 @@
        <div class="box box-solid">
             <div class="box-header with-border">
               
-
               <div class="col-md-7">
                 <h3 class="box-title"><i class="fa fa-user"></i> Seguimiento para <strong>{!! $competitor->name !!} {!! $competitor->last_name !!}</strong></h3>
               </div>
@@ -20,8 +19,52 @@
                 <a href="{!! url('/consultant/roleplay/'.$exercise->id.'/'.$competitor->id.'/'.$alt_consultant_id) !!}"  class="btn btn-default pull-right">Ver actividad de consultor {{ $consultant_label }}</a>
               </div>
             </div>
+           
+            
             <!-- /.box-header -->
             <div class="box-body">
+                <div class="col-md-12">
+                    <h3>Resolución de ejercicios en Plataforma E-cases</h3>
+                    <h4>Simulación: {{ $exercise->simulation_name }}</h4>
+                    <h3>Agenda</h3>
+                    @foreach ($ecaseDiary as $diary)
+                    <table class="table table-bordered">
+                        <tr>
+                            <th colspan="3">{!! $diary->tema !!}</th>
+                        </tr>
+                        <tr>
+                            <td class="gray-td">Importancia: {!! $diary->importancia !!}</td>
+                            <td class="gray-td">Desde: {!! $diary->fecha_desde !!}</td>
+                            <td class="gray-td">Hasta: {!! $diary->fecha_hasta !!}</td>    
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="dark-gray-td">Procedimiento</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{!! $diary->procedimiento !!}</td>
+                        </tr>
+                    </table>            
+                    @endforeach
+                    <h3>Toma de Decisión</h3>
+                    
+                    @foreach ($ecaseDecision as $decision)
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <th>{{ $decision->nombre}}</th>
+                        </tr>
+                        @foreach ($decision->questions as $question)
+                        <tr>
+                            <td>{!! $question->titulo !!}</td>
+                        </tr>
+                        <tr>
+                            <td>{!! $question->answer->respuesta !!}</td>
+                        </tr>
+                        @endforeach
+                    </table>         
+                    @endforeach
+                    <h3>Escribir al director</h3>
+                    {!! $ecaseWrite->texto !!}
+                </div>
                 <div class="col-md-12">
                     <h3>Competencias</h3>  
                     @foreach ($exercise->competencyGroups as $competency_group)

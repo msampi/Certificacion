@@ -149,10 +149,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Collective\Bus\BusServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-    
-        Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class,
-        Unisharp\Ckeditor\ServiceProvider::class,
+        
         /*
          * Application Service Providers...
          */

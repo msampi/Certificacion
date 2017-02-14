@@ -53,6 +53,11 @@ class Autoperception extends BaseModel
     {
         return $this->belongsTo('App\Models\Client');
     }
+    
+    public function setClientIdAttribute($value)
+    {
+        $this->attributes['client_id'] = $value ?: null;
+    }
 
     
 

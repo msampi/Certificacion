@@ -52,7 +52,7 @@ class CompetencyController extends AdminController
         
         return view('admin.competencies.create')
                             ->with('competency_groups',CompetencyGroup::lists('name','id'))
-                            ->with('clients',Client::lists('name','id')->prepend('Todos','NULL'));
+                            ->with('clients',Client::lists('name','id')->prepend('Todos',0));
     }
 
     /**
@@ -93,7 +93,7 @@ class CompetencyController extends AdminController
 
         return view('admin.competencies.edit')->with('competency', $competency)
                                     ->with('competency_groups',CompetencyGroup::lists('name','id'))
-                                    ->with('clients',Client::lists('name','id')->prepend('Todos','NULL'));
+                                    ->with('clients',Client::lists('name','id')->prepend('Todos',0));
     }
     
     public function getClientGroups(Request $request)

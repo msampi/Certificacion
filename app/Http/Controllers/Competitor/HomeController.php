@@ -87,9 +87,9 @@ class HomeController extends CompetitorController
     
     public function connectEcase(Request $request)
     {
-        $ecase = new Ecases();
         $exercise = $this->exerciseRepository->find($request->id);
-        $ecase->createAndAssignUser(Auth::user(), $exercise);
+        $ecase = new Ecases(Auth::user(),$exercise->simulation_id);
+        $ecase->createAndAssignUser();
         return redirect()->away('http://www.ecases-pe.com');
     }
         

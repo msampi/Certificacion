@@ -42,6 +42,11 @@ class Message extends BaseModel
         'subject' => 'required',
 
     ];
+    
+    public function setClientIdAttribute($value)
+    {
+        $this->attributes['client_id'] = $value ?: null;
+    }
 
 
     

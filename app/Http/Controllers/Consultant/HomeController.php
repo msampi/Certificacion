@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use App\Criteria\ConsultantEvaluationCriteria;
 use App\Criteria\EvaluationExerciseCriteria;
 use App\Models\EvaluationUser;
+use App\Library\Ecases;
 use Session;
 use Auth;
 
@@ -133,11 +134,19 @@ class HomeController extends ConsultantController
                                      'competitor_id' => $competitor->id,
                                      'consultant_id' => $consultant_id]
                             )->first();
+        $ecaseCompetencies = NULL;
+        
+        if ($exercise->simulation_id) : // Indica que es un ejercicio de tipo E-cases
+            $ecase = new Ecases($competitor,$exercise->simulation_id);
+            $ecaseDecision = $ecase->getDecisions();
+            $ecaseDiary = $ecase->getDiary();
+            $ecaseWrite = $ecase->getDirectorWrite();
+        endif;
+        
         
         
         $view = 'consultant.'.$exercise->getExerciseView();
         $disabled = '';
-        
         
         if (Auth::user()->id != $consultant_id)
             $disabled='disabled';        
@@ -150,6 +159,9 @@ class HomeController extends ConsultantController
                           ->with('consultant_label',$this->getAltConsultantLabel($consultant_id))
                           ->with('alt_consultant_id',$this->getAltConsultantId($consultant_id))
                           ->with('consultantReview',$consultantReview)
+                          ->with('ecaseDecision',$ecaseDecision)
+                          ->with('ecaseDiary',$ecaseDiary)
+                          ->with('ecaseWrite',$ecaseWrite)
                           ->with('autoperceptionReviewRepository', $this->autoperceptionReviewRepository)
                           ->with('questionReviewRepository', $this->questionReviewRepository); 
     }
