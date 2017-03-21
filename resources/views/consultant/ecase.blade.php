@@ -16,7 +16,7 @@
                 <span id="saving-label" class="pull-right">Guardando...</span>
               </div>
               <div class="col-md-3">
-                <a href="{!! url('/consultant/roleplay/'.$exercise->id.'/'.$competitor->id.'/'.$alt_consultant_id) !!}"  class="btn btn-default pull-right">Ver actividad de consultor {{ $consultant_label }}</a>
+                <a href="{!! url('/consultant/ecase/'.$exercise->id.'/'.$competitor->id.'/'.$alt_consultant_id) !!}"  class="btn btn-default pull-right">Ver actividad de consultor {{ $consultant_label }}</a>
               </div>
             </div>
            
@@ -45,6 +45,9 @@
                         </tr>
                     </table>            
                     @endforeach
+                    @if (!count($ecaseDiary))
+                        <div class="alert alert-danger" role="alert">Este participante no tiene agendas</div>
+                    @endif
                     <h3>Toma de Decisión</h3>
                     
                     @foreach ($ecaseDecision as $decision)
@@ -54,49 +57,64 @@
                         </tr>
                         @foreach ($decision->questions as $question)
                         <tr>
-                            <td>{!! $question->titulo !!}</td>
+                            <td><b>{!! $question->titulo !!}</b></td>
                         </tr>
                         <tr>
-                            <td>{!! $question->answer->respuesta !!}</td>
+                            <td>
+                            @if ($question->answer)
+                                <em>{!! $question->answer->respuesta !!}</em>
+                            @else
+                                <em style="color:red">Sin respuesta</em>
+                            @endif
+                            </td>
                         </tr>
                         @endforeach
                     </table>         
                     @endforeach
                     <h3>Escribir al director</h3>
+                    @if ($ecaseWrite)
                     {!! $ecaseWrite->texto !!}
+                    @else
+                    
+                        <div class="alert alert-danger" role="alert">Este participante no tiene escritura al director</div>
+                    
+                    @endif
                 </div>
                 <div class="col-md-12">
                     <h3>Competencias</h3>  
                     @foreach ($exercise->competencyGroups as $competency_group)
                     <h4>{!! $competency_group->name !!}</h4>
-                    @foreach ($competency_group->competencies as $competency)
-                    <table class="table table-bordered">
-                        <thead>
-                            <th colspan="100">{!! $competency->name !!}</th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td></td>
-                                @foreach ($exercise->rating->values as $value)
-                                    <td width="10px" class="middle"><label class="">{!! $value->name !!}</label></td> 
-                                @endforeach
-                                <td></td>
-                            </tr>
-                            @foreach ($competency->items as $item)
+                        @foreach ($competency_group->competencies as $competency)
+                        <table class="table table-bordered">
+                            <thead>
+                                <th colspan="100">{!! $competency->name !!}</th>
+                            </thead>
+                            <tbody>
                                 <tr>
-                                    <td>{!! $item->positive !!}</td>
+                                    <td></td>
                                     @foreach ($exercise->rating->values as $value)
-                                       <td class="gray"><input {{ $disabled }} type="radio" value="{!! $value->value !!}" name="competency_item[{!! $competency->id !!}][{!! $item->id !!}]" @if ($consultantReview) @if($consultantReview->isChecked($competency->id, $item->id, $value->value )) checked @endif @endif></td>
+                                        <td width="10px" class="middle"><label class="">{!! $value->name !!}</label></td> 
                                     @endforeach
-                                    <td>{!! $item->negative !!}</td>
+                                    <td></td>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                @foreach ($competency->items as $item)
+                                    <tr>
+                                        <td>{!! $item->positive !!}</td>
+                                        @foreach ($exercise->rating->values as $value)
+                                           <td class="gray"><input {{ $disabled }} type="radio" value="{!! $value->value !!}" name="competency_item[{!! $competency->id !!}][{!! $item->id !!}]" @if ($consultantReview) @if($consultantReview->isChecked($competency->id, $item->id, $value->value )) checked @endif @endif></td>
+                                        @endforeach
+                                        <td>{!! $item->negative !!}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        @endforeach
                     @endforeach
-                    @endforeach
+                    @if ($exercise->competencyGroups->isEmpty())
+                         <div class="alert alert-danger" role="alert">Este ejercicio no tiene competencias</div>
+                    @endif
                     <h3>Feedback</h3> 
-                     {!! Form::textarea('feedback_1', null, ['class' => 'form-control textarea']) !!}
+                     {!! Form::textarea('feedback_1', null, ['class' => 'form-control textarea', 'disabled' => $disabled]) !!}
                 </div>
             
             </div>

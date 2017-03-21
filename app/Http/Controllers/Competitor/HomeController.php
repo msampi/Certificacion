@@ -53,7 +53,7 @@ class HomeController extends CompetitorController
     
     public function index()
     {
-        
+        $this->trackingRepository->saveTrackingAction($this->tracking->id,'Ingreso al Dashboard');
         return view('competitor.home')->with('evaluationUser',$this->evaluationUser);
     }
     
@@ -65,7 +65,7 @@ class HomeController extends CompetitorController
         $evaluation_exercise->status_competitor = 1;
         $evaluation_exercise->save(); 
         $view = 'competitor.'.$exercise->getExerciseView();
-        
+        $this->trackingRepository->saveTrackingAction($this->tracking->id,'Ingreso a "'.$exercise->name.'"');
         return view($view)->with('exercise',$exercise)
                           ->with('autoperceptionReviewRepository', $this->autoperceptionReviewRepository)
                           ->with('questionReviewRepository', $this->questionReviewRepository);
@@ -90,6 +90,7 @@ class HomeController extends CompetitorController
         $exercise = $this->exerciseRepository->find($request->id);
         $ecase = new Ecases(Auth::user(),$exercise->simulation_id);
         $ecase->createAndAssignUser();
+        $this->trackingRepository->saveTrackingAction($this->tracking->id,'Registro en plataforma E-case');
         return redirect()->away('http://www.ecases-pe.com');
     }
         

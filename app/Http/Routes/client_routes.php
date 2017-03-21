@@ -4,5 +4,6 @@ Route::group(['namespace' => 'client', 'middleware' => 'auth', 'prefix' => 'clie
 {
 	//Route::get('/', ['as' => 'frontend.home.root', 'uses' => 'HomeController@index']);
 	Route::get('/', 'HomeController@index');
+    Route::get('/competitors/{id}', 'HomeController@competitors');
 
 });

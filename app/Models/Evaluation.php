@@ -72,6 +72,12 @@ class Evaluation extends BaseModel
         
     }
     
+    public function competitors()
+    {
+        return $this->belongsToMany('App\Models\User','evaluation_users','id','competitor_id')->withPivot('status');
+        
+    }
+    
     public function documents()
     {
         return $this->hasMany('App\Models\Document')->orderBy('name');

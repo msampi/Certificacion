@@ -6,6 +6,7 @@ use App\Http\Controllers\AppBaseController;
 use App\Http\Requests;
 use App\Criteria\ConsultantCriteria;
 use App\Repositories\EvaluationUserRepository;
+use App\Repositories\TrackingRepository;
 use Illuminate\Http\Request;
 use App;
 use Auth;
@@ -25,12 +26,15 @@ class ConsultantController extends AppBaseController
     protected $evaluationUser;
     protected $is_primary_consultant;
     protected $partner_consultant_id;
+    protected $trackingRepository;
+    protected $tracking;
     
     
     public function __construct()
     {
         $this->evaluationUserRepository = App::make(EvaluationUserRepository::class);
         $this->evaluationUserRepository->pushCriteria(new ConsultantCriteria());
+        $this->trackingRepository = App::make(TrackingRepository::class);
         $this->evaluationUser = $this->evaluationUserRepository->first();
         $this->is_primary_consultant = $this->isPrimaryConsultant();
         $this->setPartnerConsultant();
@@ -41,6 +45,13 @@ class ConsultantController extends AppBaseController
         $client = Auth::user()->client;
         View::share('client',$client);
         Session::put('evaluation_id', $this->evaluationUser->evaluation_id);
+        
+        $this->tracking = $this->trackingRepository->firstOrCreate(
+                                        ['user_id'=>Auth::user()->id, 
+                                         'role_id' => Auth::user()->role_id,
+                                         'evaluation_id' => Session::get('evaluation_id'), 
+                                         'client_id'=>Auth::user()->client_id 
+                                        ]);
         
     }
     

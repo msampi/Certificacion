@@ -18,7 +18,8 @@ class Tracking extends Model
     public $fillable = [
         'user_id',
         'evaluation_id',
-        'client_id'
+        'client_id',
+        'role_id'
     ];
 
     /**
@@ -48,5 +49,9 @@ class Tracking extends Model
 
     public function actions(){
         return $this->hasMany('App\Models\TrackingAction');
+    }
+    
+    public function role(){
+        return $this->belongsTo('App\Models\Role');
     }
 }

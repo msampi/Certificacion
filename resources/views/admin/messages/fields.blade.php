@@ -8,7 +8,11 @@
 
 <div class="form-group col-sm-4 ">
       {!! Form::label('client', 'Cliente:') !!}
-      {!! Form::select('client_id',  $clients, null,  ['class' => 'form-control']) !!}
+      @if ($message->id != 1 && $message->id != 2)
+        {!! Form::select('client_id',  $clients, null,  ['class' => 'form-control']) !!}
+      @else
+        {!! Form::select('client_id',  $clients, null,  ['class' => 'form-control', 'disabled' => true]) !!}
+      @endif
 </div>
 
 <div class="form-group col-sm-12">

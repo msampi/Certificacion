@@ -155,17 +155,18 @@ class ExcelImport {
     public function importUsers($users_file)
     {
 
-
+        
 
         if ($users_file) :
 
             \Excel::selectSheets('DATOS USUARIOS')->load($users_file->getRealPath(), function($reader) {
 
-                $line = 1;
+                $line = 1; 
+                
                 foreach ($reader->all() as $row) :
-
+                    
                     if ($this->validateUsersFields($row,$line)) :
-                        //var_dump($this->client_id);
+                       
                        $data = $this->userRepository->saveFromExcel($row, $this->client_id);
                        $data['evaluation_id'] = $this->evaluation_id;
                        $this->evaluationUserRepository->saveFromExcel($data);

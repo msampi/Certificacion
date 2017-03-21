@@ -72,6 +72,9 @@ class ExerciseController extends AdminController
     {
         $input = $request->all();
         
+        $input['pdf_consultant'] = $this->uploadFile($request, 'pdf_consultant');
+        $input['pdf_competitor'] = $this->uploadFile($request, 'pdf_competitor');
+        
         if ($input['exercise_type_id'] == 5){
             $ecases = new Ecases(Auth::user(), NULL);
             $simulation_id = $ecases->getSimulationId($input['simulation_name']);
@@ -87,8 +90,7 @@ class ExerciseController extends AdminController
             }
         }
         
-        $input['pdf_consultant'] = $this->uploadFile($request, 'pdf_consultant');
-        $input['pdf_competitor'] = $this->uploadFile($request, 'pdf_competitor');
+        
 
         $exercise = $this->exerciseRepository->create($input);
         

@@ -183,12 +183,12 @@
                   <small class="label pull-right bg-blue">{{ $ratingCount }}</small>
                 </a>
             </li>
-            <!--<li>
-                <a href="{!! URL::asset( 'admin/trackings' ) !!}">
+            <li>
+                <a href="{!! URL::asset( 'trackings' ) !!}">
                   <i class="ion ion-arrow-graph-up-right"></i> Tracking
-                  <small class="label pull-right bg-red">{{ $ratingCount }}</small>
+                  
                 </a>
-            </li>-->
+            </li>
 
             </ul>
         </section>

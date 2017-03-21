@@ -48,19 +48,27 @@ class TrackingRepository extends AdminBaseRepository
       return $ub;
     }
 
+    
+    function getUserCountry()
+    {
+        $xml = simplexml_load_file("http://www.geoplugin.net/xml.gp?ip=".$this->getUserIP());
+        return $xml->geoplugin_countryName ;        
+        
+    }
     function getUserIP()
     {
-        $client  = @$_SERVER['HTTP_CLIENT_IP'];
-        $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
-        $remote  = $_SERVER['REMOTE_ADDR'];
-
-        if(filter_var($client, FILTER_VALIDATE_IP))
-            $ip = $client;
-        elseif(filter_var($forward, FILTER_VALIDATE_IP))
-            $ip = $forward;
+        if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
+    
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        
+        elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //to check ip is pass from proxy
+    
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        
         else
-            $ip = $remote;
-
+    
+            $ip=$_SERVER['REMOTE_ADDR'];
+    
         return $ip;
     }
 
@@ -68,9 +76,10 @@ class TrackingRepository extends AdminBaseRepository
     {
         $trackingAction = new TrackingAction();
         $trackingAction->tracking_id = $id;
-        $trackingAction->action = [Auth::user()->language_id => $action];
+        $trackingAction->action = $action;
         $trackingAction->ip = $this->getUserIP();
         $trackingAction->browser = $this->getBrowser();
+        $trackingAction->country = $this->getUserCountry();
         $trackingAction->save();
 
     }

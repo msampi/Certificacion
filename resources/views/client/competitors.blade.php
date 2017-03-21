@@ -11,27 +11,29 @@
             <div class="box-header with-border">
               <i class="fa fa-sticky-note-o"></i>
 
-              <h3 class="box-title">Evaluaciones</h3>
+              <h3 class="box-title">Participantes</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <table class="table table-bordered table-hover dataTable">
                   <thead>
                     <th >Nombre</th>
-                    <th width="5%">Acción</th>
+                    <th >Email</th>
+                    <th>Estado</th>
+                    <th width="5%">Informe</th>
                     
                   </thead>
-                  @foreach ($evaluations as $evaluation)
+                  @foreach ($competitors as $competitor)
                   
                   <tr>
-                    <td>{!! $evaluation->name !!}</td>
-                    
+                    <td>{!! $competitor->name !!} {!! $competitor->last_name !!}</td>
+                    <td>{!! $competitor->email !!} </td>
+                    <td>{!! $competitor->competitorStatusLabel($competitor->pivot->status) !!} </td>               
                     <td class="text-center">
-                        <a href="{!! url('/client/competitors/'.$evaluation->id) !!}"><span class="label bg-green">VER</span></a>
+                        N/A
                     </td>     
                   </tr>
                   
-            
                 @endforeach
                   
               </table>

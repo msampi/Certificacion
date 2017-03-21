@@ -26,7 +26,9 @@ class AdminController extends AppBaseController
     {
         
         $imageName = NULL;
+        
         if ($request->file($field_name)) :
+            
             $imageName = $this->random(50).'.'.$request->file($field_name)->getClientOriginalExtension();
             $request->file($field_name)->move(base_path() . '/public/uploads/', $imageName);
         endif;
@@ -34,6 +36,5 @@ class AdminController extends AppBaseController
         return $imageName;
     }
 
-    public function fileManager() {
-    }
+    
 }

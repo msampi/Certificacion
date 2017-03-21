@@ -55,32 +55,35 @@
                     <h3>Competencias</h3>
                     @foreach ($exercise->competencyGroups as $competency_group)
                     <h4>{!! $competency_group->name !!}</h4>
-                    @foreach ($competency_group->competencies as $competency)
-                    <table class="table table-bordered">
-                        <thead >
-                            <th colspan="100">{!! $competency->name !!}</th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td></td>
-                                @foreach ($exercise->rating->values as $value)
-                                    <td width="10px" class="middle"><label class="">{!! $value->name !!}</label></td> 
-                                @endforeach
-                                <td></td>
-                            </tr>
-                            @foreach ($competency->items as $item)
+                        @foreach ($competency_group->competencies as $competency)
+                        <table class="table table-bordered">
+                            <thead >
+                                <th colspan="100">{!! $competency->name !!}</th>
+                            </thead>
+                            <tbody>
                                 <tr>
-                                    <td>{!! $item->positive !!}</td>
+                                    <td></td>
                                     @foreach ($exercise->rating->values as $value)
-                                        <td class="gray"><input {{ $disabled }}  type="radio" value="{!! $value->value !!}" name="competency_item[{!! $competency->id !!}][{!! $item->id !!}]" @if ($consultantReview) @if($consultantReview->isChecked($competency->id, $item->id, $value->value )) checked @endif @endif></td>
+                                        <td width="10px" class="middle"><label class="">{!! $value->name !!}</label></td> 
                                     @endforeach
-                                    <td>{!! $item->negative !!}</td>
+                                    <td></td>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                @foreach ($competency->items as $item)
+                                    <tr>
+                                        <td>{!! $item->positive !!}</td>
+                                        @foreach ($exercise->rating->values as $value)
+                                            <td class="gray"><input {{ $disabled }}  type="radio" value="{!! $value->value !!}" name="competency_item[{!! $competency->id !!}][{!! $item->id !!}]" @if ($consultantReview) @if($consultantReview->isChecked($competency->id, $item->id, $value->value )) checked @endif @endif></td>
+                                        @endforeach
+                                        <td>{!! $item->negative !!}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        @endforeach
                     @endforeach
-                    @endforeach
+                    @if ($exercise->competencyGroups->isEmpty())
+                         <div class="alert alert-danger" role="alert">Este ejercicio no tiene competencias</div>
+                    @endif
                     
                 </div>
             

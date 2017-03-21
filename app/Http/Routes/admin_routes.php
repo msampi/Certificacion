@@ -16,6 +16,7 @@ Route::group(['middleware' => 'admin', 'namespace' => 'Admin', 'prefix' => ''], 
     Route::resource('exercises', 'ExerciseController');
     Route::resource('questionaries', 'QuestionaryController');
     Route::resource('messages', 'MessageController');
+    Route::resource('trackings', 'TrackingController');
 
 });
 

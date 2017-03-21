@@ -50,7 +50,7 @@ class ConsultantReviewRepository extends BaseRepository
         $consultantReview->save();
         
         foreach ($request->get('form') as $form_data)
-                if ($form_data['name'] != '_token' && $form_data['name'] != '_wysihtml5_mode' &&            $form_data['name'] != 'feedback')
+                if ($form_data['name'] != '' && $form_data['name'] != '_token' && $form_data['name'] != '_wysihtml5_mode' &&  $form_data['name'] != 'feedback' &&  $form_data['name'] != 'feedback_1')
                 {
                     $competency = $this->toObject($form_data['name']);
                     $competencyReview = CompetencyReview::firstOrNew([

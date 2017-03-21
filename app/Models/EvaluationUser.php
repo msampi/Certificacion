@@ -60,6 +60,8 @@ class EvaluationUser extends BaseModel
     {
         return $this->belongsTo('App\Models\Evaluation');
     }
+    
+    
 
 
 

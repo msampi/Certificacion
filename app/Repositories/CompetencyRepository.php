@@ -33,7 +33,7 @@ class CompetencyRepository extends AdminBaseRepository
 
     public function saveFromExcel($row, $client_id)
     {
-
+        if (!$client_id) $client_id = NULL;
         $competency = $this->model->firstOrNew(['import_id' => $row->id_competencia, 'client_id' => $client_id]);
         $competency->name = $row->competencia;
         $competency->import_id = $row->id_competencia;
@@ -41,6 +41,7 @@ class CompetencyRepository extends AdminBaseRepository
         $competency->reference = $row->referencia;
         $competency->competency_group_id = $this->getCompetencyGroupID($row->grupo, $client_id);
         $competency->save();
+        
         
         $competencyItem = CompetencyItem::firstOrCreate(['competency_id' => $competency->id, 
                                                       'positive' => $row->indicador_colum_derecha,

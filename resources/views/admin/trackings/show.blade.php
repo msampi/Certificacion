@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
     <section class="content-header">
@@ -11,7 +11,7 @@
             <div class="box-body">
                 <div class="row" style="padding-left: 20px">
                     @include('admin.trackings.show_fields')
-                    <a href="{!! route('admin.trackings.index') !!}" class="btn btn-default">{!! $dictionary->translate('Volver') !!}</a>
+                    <a href="{!! route('trackings.index') !!}" class="btn btn-default">Volver</a>
                 </div>
             </div>
         </div>

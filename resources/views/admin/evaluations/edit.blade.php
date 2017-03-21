@@ -18,7 +18,7 @@
 
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($evaluation, ['route' => ['evaluations.update', $evaluation->id], 'method' => 'patch', 'files' => true]) !!}
+                   {!! Form::model($evaluation, ['route' => ['evaluations.update', $evaluation->id], 'method' => 'patch', 'files' => true, 'id' => 'evForm']) !!}
 
                     @include('admin.evaluations.fields')
 

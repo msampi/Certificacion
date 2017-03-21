@@ -85,6 +85,14 @@ class EvaluationUserController extends AdminController
     {
 
         $input = $request->all();
+        
+        if ($input['primary_consultant_id'] == $input['secondary_consultant_id'] )
+        {
+            
+            Flash::error('El consultor primario y secundario no puede ser el mismo');
+            return redirect(route('evaluationUser.create','search='.$request->get('evaluation_id')));
+        
+        }
 
         $evaluation = $this->evaluationUserRepository->create($input);
 
@@ -146,9 +154,19 @@ class EvaluationUserController extends AdminController
             return redirect(route('evaluationUser.index','search='.$evaluation->evaluation_id));
 
         }
+        
+        
 
 
         $input = $request->all();
+        
+        if ($input['primary_consultant_id'] == $input['secondary_consultant_id'] )
+        {
+            
+            Flash::error('El consultor primario y secundario no puede ser el mismo');
+            return redirect(route('evaluationUser.edit', [$evaluation->id]));
+        
+        }
         
         $evaluation = $this->evaluationUserRepository->update($input,$id);
 

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>SED | Sistema de Evaluación de Desempeño</title>
+    <title>Assessment | Sistema de Certificación</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
@@ -40,21 +40,30 @@
     <script src="{{ URL::asset('plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
 
   </head>
+    <style> 
+        .skin-blue .main-header .navbar{background-color:{{ $client->color}} !important; opacity:0.9 }
+        .skin-blue .main-header .logo{background-color:{{$client->color}} !important;}   
+        h3 a{color:{{$client->color}} !important;}
+        .skin-blue .main-header li.user-header{background-color:{{$client->color}} !important;}
+        table th{background-color:{{$client->color}} !important; color:white}
+        table td.middle{background-color:{{$client->color}} !important; color:white; text-align: center}
+        table td.gray{background-color:#eee !important; color:white; text-align: center}
+    </style>
   <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
         <header class="main-header">
         <!-- Logo -->
-        <a href="index2.html" class="logo">
+        <a href="{{ url('/competitor') }}" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>SC</b></span>
+          <span class="logo-mini"><img src="{{ URL::asset('uploads/'.$client->logo) }}" class="user-image" alt="Assessment"></span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg">Sistema<b>SC</b></span>
+          <span class="logo-lg"><img src="{{ URL::asset('uploads/'.$client->logo) }}" class="user-image" alt="Assessment"></span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Sidebar toggle button-->
-          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-            <span class="sr-only">Navegacion</span>
+          <a href="{{ url('/competitor') }}">
+            <i class="fa fa-home" style="color:white; font-size:22px; padding:12px"></i>
           </a>
           <div class="navbar-custom-menu" style="float: right;">
             <ul class="nav navbar-nav">
@@ -74,19 +83,16 @@
                     <p>
                     @if (Auth::user())
                       {{ Auth::user()->name }} {{ Auth::user()->last_name }}
-                      <small>Member since Nov. 2012</small>
+                      
                     </p>
                     @endif
                   </li>
 
                   <!-- Menu Footer-->
                   <li class="user-footer">
-                    <div class="pull-left">
-                      <a href="#" class="btn btn-default btn-flat">Profile</a>
-                    </div>
-                    <div class="pull-right">
-                      <a href="{{ url('logout') }}" class="btn btn-default btn-flat">Sign out</a>
-                    </div>
+                    
+                      <a href="{{ url('logout') }}" class="btn btn-default btn-flat">Salir</a>
+                    
                   </li>
                 </ul>
               </li>
@@ -95,37 +101,9 @@
           </div>
         </nav>
       </header>
-      <!-- Left side column. contains the logo and sidebar -->
-      <aside class="main-sidebar">
-        <!-- sidebar: style can be found in sidebar.less -->
-        <section class="sidebar">
-          <!-- Sidebar user panel -->
-          <div class="user-panel">
-            <div class="pull-left image">
-              <img src="{{ URL::asset('uploads/'.Auth::user()->image) }}" class="img-circle" alt="User Image">
-            </div>
-            <div class="pull-left info">
-               @if (Auth::user())<p>{{ Auth::user()->name }} {{ Auth::user()->last_name }} </p>@endif
-               <span>Human resources</span>
-            </div>
-          </div>
-
-
-          <!-- sidebar menu: : style can be found in sidebar.less -->
-          <ul class="sidebar-menu">
-            <li class="header">NAVEGACIÓN PRINCIPAL</li>
-            <li>
-              <a href="{!! URL::asset( 'home' ) !!}">
-                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-
-              </a>
-            </li>
-
-            </ul>
-        </section>
-    </aside>
+      
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
+    <div class="content">
         <!-- Main content -->
         <section class="content">
             <!-- Small boxes (Stat box) -->
@@ -136,6 +114,11 @@
     </div>
 
     </div>
+    <style>
+        
+        body, .skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side{background-color: #ecf0f5}  
+    
+    </style>
 
 
 
@@ -185,7 +168,7 @@
 
 
      <script src="{{ URL::asset('js/scripts.js') }}"></script>
-     <script src="{{ URL::asset('js/frontend.js') }}"></script>
+     <script src="{{ URL::asset('js/competitor.js') }}"></script>
 
     <script>
         var BASE_URL = '{!! url('/') !!}';

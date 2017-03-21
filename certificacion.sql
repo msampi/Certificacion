@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 07-02-2017 a las 21:35:04
+-- Tiempo de generación: 21-03-2017 a las 00:59:19
 -- Versión del servidor: 5.6.28
 -- Versión de PHP: 5.6.25
 
@@ -110,13 +110,6 @@ CREATE TABLE `competencies` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Volcado de datos para la tabla `competencies`
---
-
-INSERT INTO `competencies` (`id`, `import_id`, `name`, `description`, `reference`, `client_id`, `competency_group_id`, `created_at`, `updated_at`) VALUES
-(11, 0, 'test', '5', '6', NULL, 3, '2017-02-07 22:24:09', '2017-02-07 22:24:09');
-
 -- --------------------------------------------------------
 
 --
@@ -126,7 +119,7 @@ INSERT INTO `competencies` (`id`, `import_id`, `name`, `description`, `reference
 CREATE TABLE `competency_groups` (
   `id` int(11) NOT NULL,
   `name` varchar(256) NOT NULL,
-  `client_id` int(11) NOT NULL,
+  `client_id` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -144,7 +137,17 @@ INSERT INTO `competency_groups` (`id`, `name`, `client_id`, `created_at`, `updat
 (8, 'Mentalidad ejecutiva', 4, '2016-12-14 18:35:23', '2016-12-14 18:35:23'),
 (9, 'Grupo PE', 4, '2016-12-20 12:38:00', '2016-12-20 12:38:00'),
 (10, 'Mentalidad ejecutiva', 5, '2016-12-20 14:25:53', '2016-12-20 14:25:53'),
-(11, 'Mentalidad Empresarial', 5, '2016-12-20 14:26:44', '2016-12-20 14:26:44');
+(11, 'Mentalidad Empresarial', 5, '2016-12-20 14:26:44', '2016-12-20 14:26:44'),
+(12, 'Mentalidad empresarial', 4, '2017-02-08 14:19:18', '2017-02-08 14:19:18'),
+(13, 'Orientación y Satisfacción del Cliente', 4, '2017-02-08 14:19:18', '2017-02-08 14:19:18'),
+(14, 'Orientación a Objetivos', 4, '2017-02-08 14:19:18', '2017-02-08 14:19:18'),
+(15, 'Hablidades Sociales', 4, '2017-02-08 14:19:18', '2017-02-08 14:19:18'),
+(16, 'Valores Personales', 4, '2017-02-08 14:19:18', '2017-02-08 14:19:18'),
+(17, 'Mentalidad de equipo', 1, '2017-02-08 14:22:11', '2017-02-08 14:22:11'),
+(18, 'Mentalidad de equipo', 4, '2017-03-10 13:19:46', '2017-03-10 13:19:46'),
+(19, 'Mentalidad empresarial', NULL, '2017-03-10 17:09:25', '2017-03-10 17:09:25'),
+(20, 'Mentalidad de equipo', NULL, '2017-03-10 17:09:25', '2017-03-10 17:09:25'),
+(21, 'Mentalidad empresarial', 1, '2017-03-10 17:20:14', '2017-03-10 17:20:14');
 
 -- --------------------------------------------------------
 
@@ -282,7 +285,8 @@ CREATE TABLE `exercises` (
   `client_id` int(11) UNSIGNED DEFAULT NULL,
   `rating_id` int(11) NOT NULL,
   `external_link` text NOT NULL,
-  `simulation_name` varchar(255) NOT NULL,
+  `simulation_id` int(11) NOT NULL,
+  `simulation_name` varchar(256) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -379,7 +383,7 @@ CREATE TABLE `messages` (
 
 INSERT INTO `messages` (`id`, `subject`, `from`, `message`, `client_id`, `created_at`, `updated_at`) VALUES
 (1, 'Registro de usuario (default)', 'People Experts', 'Estimado user_name user_last_name. <br><br>Su registo en la plataforma de Assessment ha sido realizada con exito. <br><br>En breve recibira otro correo para poder establecer su clave y tener acceso a la plataforma.<br><br><br>', 0, '2016-11-04 17:21:12', '2016-12-09 13:52:13'),
-(2, 'Bienvenida a la evaluacion', 'People Experts', '<p>Estima user_name user_last_name</p><p>Le damos la bienvenida a la evaluacion evaluation_name<br></p>', 0, '2016-12-09 13:53:30', '2016-12-09 13:53:30');
+(2, 'Bienvenida a la evaluacion (default)', 'People Experts', '<p>Estima user_name user_last_name</p><p>Le damos la bienvenida a la evaluacion evaluation_name<br></p>', 0, '2016-12-09 13:53:30', '2017-03-15 21:46:27');
 
 -- --------------------------------------------------------
 
@@ -409,10 +413,13 @@ CREATE TABLE `password_resets` (
 --
 
 INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
-('consultor@consultor.com', 'dae95a7eed27a2b1d3feb76a1292dc0ac965e996aeea5e926e1881ffcb5d1f86', '2016-12-09 23:30:19'),
-('participante@participante.com', '4099746ac797e4480c8e5d3a72019803021f3059d81d8b9dc4e84d3775573523', '2016-12-09 23:30:27'),
 ('jramirez@gmail.com', 'a97adc567d7431d6e55ee0fc8ac0649b864ef9ca04fe954c99d3ae18c4ef6394', '2016-12-09 23:30:53'),
-('jfarias@gmail.com', 'dc722254b73a37d6f8174fb9a317dfcb8c4ed59c146ca78cb8a6001c6155d6ce', '2016-12-09 23:31:04');
+('jfarias@gmail.com', 'dc722254b73a37d6f8174fb9a317dfcb8c4ed59c146ca78cb8a6001c6155d6ce', '2016-12-09 23:31:04'),
+('consultor@consultor.com', '328b0a917ee1e3677a1ceeea78868e7585194bbef4c23441f846c2d008ced39a', '2017-03-14 02:00:56'),
+('consultor2@consultor.com', 'bf10d26c4620db9231ce40c707df081bb4069ccec5e54bf39bdc3ac72f66e06a', '2017-03-14 02:01:08'),
+('participante@participante.com', '04f27ce92f74ad3289d3725c59ffdbda8f83f7cf9973b0bf736ef56d0a20d433', '2017-03-14 02:01:20'),
+('matiassampietro@hotmail.com', '6c31b02c783685b14567b4ff348c00598c387fbcc41ac4fc15e53921edb0a90c', '2017-03-14 02:38:11'),
+('cliente@cliente.com', 'c02baea67b992b7dcea2be432412f390d7ed299846c71a7b37fc5712198ea9c4', '2017-03-16 00:59:36');
 
 -- --------------------------------------------------------
 
@@ -430,6 +437,20 @@ CREATE TABLE `questionaries` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `questionaries`
+--
+
+INSERT INTO `questionaries` (`id`, `import_id`, `name`, `client_id`, `instructions`, `reference`, `created_at`, `updated_at`) VALUES
+(48, 1, 'cuestionario 1', NULL, 'instrucciones', 'referencia', '2017-03-10 17:15:57', '2017-03-10 17:15:57'),
+(49, 2, 'cuestionario 2', NULL, 'instrucciones', 'referencia', '2017-03-10 17:15:57', '2017-03-10 17:15:57'),
+(50, 3, 'cuestionario 3', NULL, 'instrucciones', 'referencia', '2017-03-10 17:15:57', '2017-03-10 17:15:57'),
+(51, 5, 'test comillas', NULL, 'intrucciones \'comillas simples\' y "comillas dobles" etc etc.', NULL, '2017-03-10 17:15:57', '2017-03-10 17:15:57'),
+(52, 1, 'cuestionario 1', 4, 'instrucciones', 'referencia', '2017-03-10 17:41:44', '2017-03-10 17:41:44'),
+(53, 2, 'cuestionario 2', 4, 'instrucciones', 'referencia', '2017-03-10 17:41:44', '2017-03-10 17:41:44'),
+(54, 3, 'cuestionario 3', 4, 'instrucciones', 'referencia', '2017-03-10 17:41:45', '2017-03-10 17:41:45'),
+(55, 5, 'test comillas', 4, 'intrucciones \'comillas simples\' y "comillas dobles" etc etc.', NULL, '2017-03-10 17:41:45', '2017-03-10 17:41:45');
 
 -- --------------------------------------------------------
 
@@ -458,6 +479,30 @@ CREATE TABLE `questions` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Volcado de datos para la tabla `questions`
+--
+
+INSERT INTO `questions` (`id`, `question`, `questionary_id`, `created_at`, `updated_at`) VALUES
+(181, 'pregunta1', 48, '2017-03-10 17:15:57', '2017-03-10 17:15:57'),
+(182, 'pregunta 1', 48, '2017-03-10 17:15:57', '2017-03-10 17:15:57'),
+(183, 'pregunta 2', 48, '2017-03-10 17:15:57', '2017-03-10 17:15:57'),
+(184, 'pregunta1', 49, '2017-03-10 17:15:57', '2017-03-10 17:15:57'),
+(185, 'pregunta 1', 49, '2017-03-10 17:15:57', '2017-03-10 17:15:57'),
+(186, 'pregunta 2', 49, '2017-03-10 17:15:57', '2017-03-10 17:15:57'),
+(187, 'pregunta2', 49, '2017-03-10 17:15:57', '2017-03-10 17:15:57'),
+(188, 'pregunta1', 50, '2017-03-10 17:15:57', '2017-03-10 17:15:57'),
+(189, 'intrucciones \'comillas simples\' y "comillas dobles" etc etc.', 51, '2017-03-10 17:15:57', '2017-03-10 17:15:57'),
+(190, 'pregunta1', 52, '2017-03-10 17:41:44', '2017-03-10 17:41:44'),
+(191, 'pregunta 1', 52, '2017-03-10 17:41:44', '2017-03-10 17:41:44'),
+(192, 'pregunta 2', 52, '2017-03-10 17:41:44', '2017-03-10 17:41:44'),
+(193, 'pregunta1', 53, '2017-03-10 17:41:44', '2017-03-10 17:41:44'),
+(194, 'pregunta 1', 53, '2017-03-10 17:41:44', '2017-03-10 17:41:44'),
+(195, 'pregunta 2', 53, '2017-03-10 17:41:44', '2017-03-10 17:41:44'),
+(196, 'pregunta2', 53, '2017-03-10 17:41:44', '2017-03-10 17:41:44'),
+(197, 'pregunta1', 54, '2017-03-10 17:41:45', '2017-03-10 17:41:45'),
+(198, 'intrucciones \'comillas simples\' y "comillas dobles" etc etc.', 55, '2017-03-10 17:41:45', '2017-03-10 17:41:45');
+
 -- --------------------------------------------------------
 
 --
@@ -472,6 +517,26 @@ CREATE TABLE `question_options` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `question_options`
+--
+
+INSERT INTO `question_options` (`id`, `option`, `question_id`, `correct`, `created_at`, `updated_at`) VALUES
+(556, 'opcion1', 181, 1, '2017-03-10 17:15:57', '2017-03-10 17:15:57'),
+(557, 'opcion2', 182, 0, '2017-03-10 17:15:57', '2017-03-10 17:15:57'),
+(558, 'opcion1', 184, 1, '2017-03-10 17:15:57', '2017-03-10 17:15:57'),
+(559, 'opcion2', 185, 0, '2017-03-10 17:15:57', '2017-03-10 17:15:57'),
+(560, 'opcion1', 186, 1, '2017-03-10 17:15:57', '2017-03-10 17:15:57'),
+(561, 'opcion2', 187, 0, '2017-03-10 17:15:57', '2017-03-10 17:15:57'),
+(562, 'opcion3', 186, 0, '2017-03-10 17:15:57', '2017-03-10 17:15:57'),
+(563, 'opcion1', 190, 1, '2017-03-10 17:41:44', '2017-03-10 17:41:44'),
+(564, 'opcion2', 191, 0, '2017-03-10 17:41:44', '2017-03-10 17:41:44'),
+(565, 'opcion1', 193, 1, '2017-03-10 17:41:44', '2017-03-10 17:41:44'),
+(566, 'opcion2', 194, 0, '2017-03-10 17:41:44', '2017-03-10 17:41:44'),
+(567, 'opcion1', 195, 1, '2017-03-10 17:41:44', '2017-03-10 17:41:44'),
+(568, 'opcion2', 196, 0, '2017-03-10 17:41:44', '2017-03-10 17:41:44'),
+(569, 'opcion3', 195, 0, '2017-03-10 17:41:45', '2017-03-10 17:41:45');
 
 -- --------------------------------------------------------
 
@@ -504,13 +569,6 @@ CREATE TABLE `ratings` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Volcado de datos para la tabla `ratings`
---
-
-INSERT INTO `ratings` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(5, 'Rating People Experts', '2016-10-31 18:30:23', '2016-11-17 01:42:05');
-
 -- --------------------------------------------------------
 
 --
@@ -525,16 +583,6 @@ CREATE TABLE `rating_values` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `rating_values`
---
-
-INSERT INTO `rating_values` (`id`, `value`, `name`, `rating_id`, `created_at`, `updated_at`) VALUES
-(3, 1, 'malo', 5, '2016-10-31 18:30:23', '2016-10-31 18:30:23'),
-(4, 2, 'regular', 5, '2016-10-31 18:30:23', '2016-10-31 18:30:23'),
-(5, 3, 'bueno', 5, '2016-10-31 18:30:23', '2016-10-31 18:30:23'),
-(6, 4, 'excelente', 5, '2016-11-17 01:42:05', '2016-11-17 01:42:05');
 
 -- --------------------------------------------------------
 
@@ -567,9 +615,10 @@ INSERT INTO `roles` (`id`, `name`, `created_at`, `updated_at`) VALUES
 
 CREATE TABLE `trackings` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `evaluation_id` int(11) NOT NULL,
+  `user_id` int(11) UNSIGNED NOT NULL,
+  `evaluation_id` int(11) UNSIGNED NOT NULL,
   `client_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -623,10 +672,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `last_name`, `email`, `password`, `dni`, `remember_token`, `client_id`, `code`, `role_id`, `image`, `country`, `city`, `area`, `department`, `register_message_id`, `created_at`, `updated_at`) VALUES
-(2, 'Consultor', 'Consultor', 'consultor@consultor.com', '$2y$10$BN3V4y23SA5wq1mr.cm/LOtS4MYKvaNYvCew0FN9ZcogeaC1WhenG', '25141390', 'qAjRkkeEPit5TPbaWcbngCkudvcV9Wd3KHr1k52CwGAxk03KbxnDnQilhbXe', 4, '245159', 4, '', 'Argentina', 'Capital Federal', '223', 'dep', 0, '2016-05-22 04:23:31', '2017-02-01 22:15:54'),
-(31, 'Superadmin', 'Superadmin', 'superadmin@superadmin.com', '$2a$04$KESIUGZkNuMzn37XuoYdPu4w.rrCHTO.f8zFf65k59SwqZK6owcbi', '29141390', 'PAhf0hPN2ZG6IKM21KaqeoTRYWcfSXI5BJ5gdkSHEhS1jaFmX9rWmK8k0WDX', NULL, '245158', 1, '', 'AR', 'Tandil', '223', 'dep', 0, '2016-05-22 04:23:31', '2017-02-01 21:49:03'),
-(36, 'Cliente', 'Cliente', 'cliente@cliente.com', '$2a$04$KESIUGZkNuMzn37XuoYdPu4w.rrCHTO.f8zFf65k59SwqZK6owcbi', '29141190', 'XW5MaIGPTdXZtoYjbRlV8YYQIPHhjOT7ikZGprDriIxmnK8U24C1QUAXFosT', 4, '255859', 2, '', 'AR', 'Tandil', '223', 'dep', 0, '2016-05-22 04:23:31', '2016-10-29 18:50:28'),
-(38, 'Participante', 'Participante', 'participante@participante.com', '$2y$10$BN3V4y23SA5wq1mr.cm/LOtS4MYKvaNYvCew0FN9ZcogeaC1WhenG', '25141330', 'd01LR0CG5AfPglLqEALFeUoj9HBqHVzq7W5noXIiW3BcwzGiLmALjKAZwdC2', 4, '243159', 3, '', 'Argentina', 'Capital Federal', '223', 'dep', 0, '2016-05-22 04:23:31', '2017-02-01 22:45:11');
+(31, 'Superadmin', 'Superadmin', 'superadmin@superadmin.com', '$2a$04$KESIUGZkNuMzn37XuoYdPu4w.rrCHTO.f8zFf65k59SwqZK6owcbi', '29141390', 'cUCsXBRXDaFcUtlaRzLRIMOlptuD3GQsxciy14B4587mFyDiY71uPdv0ggP6', NULL, '245158', 1, '', 'AR', 'Tandil', '223', 'dep', 0, '2016-05-22 04:23:31', '2017-03-16 02:43:21');
 
 --
 -- Índices para tablas volcadas
@@ -835,7 +881,9 @@ ALTER TABLE `roles`
 -- Indices de la tabla `trackings`
 --
 ALTER TABLE `trackings`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `evaluation_id` (`evaluation_id`);
 
 --
 -- Indices de la tabla `tracking_actions`
@@ -860,12 +908,12 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `autoperceptions`
 --
 ALTER TABLE `autoperceptions`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 --
 -- AUTO_INCREMENT de la tabla `autoperception_items`
 --
 ALTER TABLE `autoperception_items`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 --
 -- AUTO_INCREMENT de la tabla `autoperception_reviews`
 --
@@ -875,32 +923,32 @@ ALTER TABLE `autoperception_reviews`
 -- AUTO_INCREMENT de la tabla `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `competencies`
 --
 ALTER TABLE `competencies`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
 --
 -- AUTO_INCREMENT de la tabla `competency_groups`
 --
 ALTER TABLE `competency_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT de la tabla `competency_items`
 --
 ALTER TABLE `competency_items`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=194;
 --
 -- AUTO_INCREMENT de la tabla `competency_reviews`
 --
 ALTER TABLE `competency_reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT de la tabla `consultant_reviews`
 --
 ALTER TABLE `consultant_reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT de la tabla `documents`
 --
@@ -910,22 +958,22 @@ ALTER TABLE `documents`
 -- AUTO_INCREMENT de la tabla `evaluations`
 --
 ALTER TABLE `evaluations`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `evaluation_exercises`
 --
 ALTER TABLE `evaluation_exercises`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `evaluation_users`
 --
 ALTER TABLE `evaluation_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `exercises`
 --
 ALTER TABLE `exercises`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 --
 -- AUTO_INCREMENT de la tabla `exercise_autoperceptions`
 --
@@ -935,7 +983,7 @@ ALTER TABLE `exercise_autoperceptions`
 -- AUTO_INCREMENT de la tabla `exercise_competencies`
 --
 ALTER TABLE `exercise_competencies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT de la tabla `exercise_questionaries`
 --
@@ -945,22 +993,22 @@ ALTER TABLE `exercise_questionaries`
 -- AUTO_INCREMENT de la tabla `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `questionaries`
 --
 ALTER TABLE `questionaries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 --
 -- AUTO_INCREMENT de la tabla `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=199;
 --
 -- AUTO_INCREMENT de la tabla `question_options`
 --
 ALTER TABLE `question_options`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=570;
 --
 -- AUTO_INCREMENT de la tabla `question_reviews`
 --
@@ -985,17 +1033,17 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `trackings`
 --
 ALTER TABLE `trackings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `tracking_actions`
 --
 ALTER TABLE `tracking_actions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 --
 -- Restricciones para tablas volcadas
 --
@@ -1034,14 +1082,14 @@ ALTER TABLE `competency_items`
 -- Filtros para la tabla `competency_reviews`
 --
 ALTER TABLE `competency_reviews`
-  ADD CONSTRAINT `competency_reviews_ibfk_1` FOREIGN KEY (`competency_id`) REFERENCES `competencies` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `competency_reviews_ibfk_2` FOREIGN KEY (`competency_item_id`) REFERENCES `competency_items` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `competency_reviews_ibfk_1` FOREIGN KEY (`competency_id`) REFERENCES `competencies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `competency_reviews_ibfk_2` FOREIGN KEY (`competency_item_id`) REFERENCES `competency_items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `consultant_reviews`
 --
 ALTER TABLE `consultant_reviews`
-  ADD CONSTRAINT `consultant_reviews_ibfk_1` FOREIGN KEY (`exercise_id`) REFERENCES `exercises` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `consultant_reviews_ibfk_1` FOREIGN KEY (`exercise_id`) REFERENCES `exercises` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `consultant_reviews_ibfk_2` FOREIGN KEY (`consultant_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `consultant_reviews_ibfk_3` FOREIGN KEY (`competitor_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -1128,6 +1176,13 @@ ALTER TABLE `question_reviews`
 --
 ALTER TABLE `rating_values`
   ADD CONSTRAINT `rating_values_ibfk_1` FOREIGN KEY (`rating_id`) REFERENCES `ratings` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `trackings`
+--
+ALTER TABLE `trackings`
+  ADD CONSTRAINT `trackings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `trackings_ibfk_2` FOREIGN KEY (`evaluation_id`) REFERENCES `evaluations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tracking_actions`

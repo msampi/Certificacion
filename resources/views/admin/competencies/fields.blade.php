@@ -27,12 +27,12 @@
 <input type="hidden" name="remove-item-list" id="remove-item-list">
 
 <div class="form-group col-sm-12">
-	<a role="button" class="btn btn-success item-list-button" data-type="competency"><span class="glyphicon glyphicon-plus"></span> &nbsp;Agregar Item</a>
+	<a role="button" class="btn btn-success item-list-button" data-type="competency"><span class="glyphicon glyphicon-plus"></span> &nbsp;Agregar Indicador</a>
 </div>
 <div class="form-group col-sm-12">
 	<div class="panel panel-default item-list">
   		<div class="panel-heading">
-    		<h3 class="panel-title"><i class="fa fa-th"></i> <strong>Items</strong></h3><em>Agregue aqui los items de esta competencia</em>
+    		<h3 class="panel-title"><i class="fa fa-th"></i> <strong>Indicadores</strong></h3><em>Agregue aqui los indicadores de esta competencia</em>
   		</div>
   		<div class="panel-body">
   			

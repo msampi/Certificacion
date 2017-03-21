@@ -171,9 +171,9 @@
         <h2>Link externo</h2>
     </div>
     <div class="col-md-12">
-
-            {!! Form::label('external_link', 'Link externo:') !!}
-            {!! Form::text('external_link', null, ['class' => 'form-control']) !!}
+        {!! Form::label('external_link', 'Link externo:') !!}<br><em>No introduzca http://</em>
+            
+        {!! Form::text('external_link', null, ['class' => 'form-control', 'placeholder' => 'http://' ]) !!}
     </div>
 </div>
 <div id="ecases">

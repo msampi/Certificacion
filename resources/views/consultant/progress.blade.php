@@ -22,7 +22,7 @@
                   <thead>
                     <th>Nombre Participante</th>
                     <th>Email</th>
-                    <th width="50px">Estado</th>
+                    <th width="130px">Estado participante</th>
                     <th width="50px">Acción</th>
                   </thead>
                   @foreach ($evaluationUser as $ev)

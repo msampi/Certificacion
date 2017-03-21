@@ -83,6 +83,16 @@ class User extends Authenticatable
         }
         return NULL;
     }
+    
+    public function competitorStatusLabel($value)
+    {
+        if ($value == 0)
+            return '<span class="label bg-red">No iniciado</span>';
+        if ($value == 1)
+            return '<span class="label bg-orange">Iniciado</span>';
+        if ($value == 2)
+            return '<span class="label bg-green">Finalizado</span>';
+    }
 
 
 

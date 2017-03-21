@@ -72,7 +72,7 @@ class AutoperceptionRepository extends AdminBaseRepository
     
     public function saveFromExcel($row, $client_id)
     {
-
+        if (!$client_id) $client_id = NULL;
         $autoperception = $this->model->firstOrNew(['import_id' => $row->id_autopercepcion, 'client_id' => $client_id]);
         $autoperception->name = $row->nombre;
         $autoperception->instructions = $row->instrucciones;

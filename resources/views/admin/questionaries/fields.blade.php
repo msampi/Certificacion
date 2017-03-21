@@ -33,7 +33,7 @@
 	            <div class="row"> 
                     <div class="col-md-8">
                         <label>Pregunta</label>
-                        <input type="text" name="question[{!! $question->id !!}][question]" class="form-control" value="{!! $question->question !!}">
+                        <input type="text" name="question[{!! $question->id !!}][question]" class="form-control" value="{{ $question->question }}">
                     </div>
                     <div class="col-md-2"><label style="display:block">&nbsp;</label><a class="btn btn-primary btn-full" onclick="addSubItem(this,{!! $question->id !!})">Agregar opción</a></div>
 	                <div class="col-md-2">
@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <label>Opción</label>
-                                    <input type="text" name="question[{!! $question->id !!}][option][{!! $option->id !!}][option]" class="form-control" value="{!! $option->option !!}">
+                                    <input type="text" name="question[{!! $question->id !!}][option][{!! $option->id !!}][option]" class="form-control" value="{{ $option->option }}">
                                 </div>
                                 <div class="col-md-2"><label style="display:block">&nbsp;</label>
                                     <a class="btn btn-danger btn-full" onclick="removeManyListItem(this);addOptionToRemove({!! $option->id !!})"><i class="glyphicon glyphicon-trash"></i> Eliminar</a>

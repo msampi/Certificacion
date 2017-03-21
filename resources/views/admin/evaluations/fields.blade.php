@@ -116,11 +116,11 @@
     </div>
     <div class="col-md-12">
         {!! Form::label('registro', 'Mensaje de Registro:') !!}
-        {!! Form::select('register_message_id',  $messages, null,  ['class' => 'form-control']) !!}
+        {!! Form::select('register_message_id',  $messages, 1,  ['class' => 'form-control']) !!}
     </div>
     <div class="col-md-12">
         {!! Form::label('bienvenida', 'Mensaje de bienvenida:') !!}
-        {!! Form::select('welcome_message_id',  $messages, null,  ['class' => 'form-control']) !!}
+        {!! Form::select('welcome_message_id',  $messages, 2,  ['class' => 'form-control']) !!}
     </div>
     
 </div>
@@ -136,11 +136,26 @@
       {!! Form::checkbox('start',1, false); !!}    
     </div>
      <div class="col-md-12">
-        {!! Form::submit('Guardar', ['class' => 'btn btn-primary']) !!}
+        {!! Form::button('Guardar', ['class' => 'btn btn-primary', 'onclick' => 'verifyStart()']) !!}
         <a href="{!! route('evaluations.index') !!}" class="btn btn-default">Cancelar</a>
     </div>
 </div>
 <script type="text/javascript">
+    
+    function verifyStart() {
+        if (!$("input[name='start']").is(':checked'))
+             $("#evForm").submit();
+        else
+            if (!$("input[name='users_excel']").val()){
+                if (confirm('Esta a punto de lanzar una evaluación pero no ha cargado un archivo de usuarios desea continuar?'))
+                    $("#evForm").submit();
+            }
+            else
+                $("#evForm").submit();
+        
+        
+    }
+        
     $(function(){
         @if (isset($evaluation))
         checkClearExercises({{ $evaluation->client_id}});

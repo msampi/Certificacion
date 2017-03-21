@@ -14,6 +14,7 @@ use App\Repositories\UserRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Illuminate\Http\Request;
 use App\Criteria\ConsultantEvaluationCriteria;
+use App\Criteria\ConsultantCriteria;
 use App\Criteria\EvaluationExerciseCriteria;
 use App\Models\EvaluationUser;
 use App\Library\Ecases;
@@ -55,7 +56,7 @@ class HomeController extends ConsultantController
     
     public function index()
     {
-        
+        $this->trackingRepository->saveTrackingAction($this->tracking->id,'Ingreso al Dashboard');
         return view('consultant.home')->with('evaluationUser',$this->evaluationUser);
     }
     
@@ -92,6 +93,11 @@ class HomeController extends ConsultantController
         $this->evaluationExerciseRepository->pushCriteria(new EvaluationExerciseCriteria($exercise->id));
         $evaluation_exercise = $this->evaluationExerciseRepository->first();
         $evaluation_exercise->status = $request->status;
+        if ($request->status == 1)
+            $this->trackingRepository->saveTrackingAction($this->tracking->id,'Comienzo del ejercicio "'.$exercise->name.'"');
+        if ($request->status == 2)
+            $this->trackingRepository->saveTrackingAction($this->tracking->id,'Finalización del ejercicio "'.$exercise->name.'"');
+            
         $evaluation_exercise->save(); 
         $evaluationUser = $this->evaluationUserRepository->all();
         
@@ -135,6 +141,11 @@ class HomeController extends ConsultantController
                                      'consultant_id' => $consultant_id]
                             )->first();
         $ecaseCompetencies = NULL;
+        $ecaseDecision = NULL;
+        $ecaseDiary = NULL;
+        $ecaseWrite = NULL;
+        
+        $this->trackingRepository->saveTrackingAction($this->tracking->id,'Ingreso al ejercicio "'.$exercise->name.'" de '.$competitor->name.' '.$competitor->last_name);
         
         if ($exercise->simulation_id) : // Indica que es un ejercicio de tipo E-cases
             $ecase = new Ecases($competitor,$exercise->simulation_id);

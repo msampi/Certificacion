@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests;
 use App\Http\Requests\CreateTrackingRequest;
-use App\Criteria\ClientCriteria;
 use App\Http\Requests\UpdateTrackingRequest;
 use App\Repositories\TrackingRepository;
 use App\Http\Controllers\AppBaseController as InfyOmBaseController;
@@ -13,7 +12,7 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
-class TrackingController extends AdminBaseController
+class TrackingController extends AdminController
 {
     /** @var  TrackingRepository */
     private $trackingRepository;
@@ -21,7 +20,6 @@ class TrackingController extends AdminBaseController
 
     public function __construct(TrackingRepository $trackingRepo)
     {
-        parent::__construct();
 
         $this->trackingRepository = $trackingRepo;
     }
@@ -34,7 +32,7 @@ class TrackingController extends AdminBaseController
      */
     public function index(Request $request)
     {
-        $this->trackingRepository->pushCriteria(new ClientCriteria($this->superadmin));
+        
         $trackings = $this->trackingRepository->all();
 
         return view('admin.trackings.index')

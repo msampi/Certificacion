@@ -34,7 +34,7 @@ class QuestionaryRepository extends BaseRepository
     
     public function saveFromExcel($row, $client_id)
     {
-
+        if (!$client_id) $client_id = NULL;
         $questionary = $this->model->firstOrNew(['import_id' => $row->id_conocimiento, 'client_id' => $client_id]);
         $questionary->name = $row->nombre;
         $questionary->instructions = $row->instrucciones;

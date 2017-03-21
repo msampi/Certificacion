@@ -1,9 +1,9 @@
 <table class="table table-bordered">
     <thead>
-        <th>{!! $dictionary->translate('Navegador') !!}</th>
-        <th>{!! $dictionary->translate('IP') !!}</th>
-        <th>{!! $dictionary->translate('Acción') !!}</th>
-        <th>{!! $dictionary->translate('Fecha y Hora') !!}</th>
+        <th>Navegador</th>
+        <th>IP</th>
+        <th>Acción</th>
+        <th>Fecha y Hora</th>
 
     </thead>
     <tbody>
@@ -11,7 +11,7 @@
         <tr>
           <td>{!! $action->browser !!}</td>
           <td>{!! $action->ip !!}</td>
-          <td>{!! $action->getAttributeTranslate($action->action) !!}</td>
+          <td>{!! $action->action !!}</td>
           <td>{!! $action->created_at !!}</td>
         </tr>
 
